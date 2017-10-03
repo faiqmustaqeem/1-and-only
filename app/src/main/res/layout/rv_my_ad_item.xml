@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    swipe:leftEdgeSwipeOffset="0dp"
+    swipe:rightEdgeSwipeOffset="0dp"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:tag="Bottom3">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't want to see this item?"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/register_button_background"
+            android:text="Remove"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="0dp">
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="4dp"
+            android:background="@android:color/white">
+
+            <TextView
+                android:id="@+id/position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clCountry"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/ivOptions"
+                    android:layout_width="10dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="8dp"
+                    card_view:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/tvLastUpdateTime"
+                    android:src="@drawable/ic_options"
+                    card_view:layout_constraintVertical_bias="0.0"
+                    android:tint="@color/colorPrimary"
+                    android:focusableInTouchMode="true"/>
+
+                <ImageView
+                    android:id="@+id/ivAdImage"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sample_property_pic2"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="0dp"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="Name"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    card_view:layout_constraintLeft_toRightOf="@+id/ivAdImage"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/tvLastUpdateTime" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    android:paddingLeft="8dp"
+                    android:text="Description hbc hac hasvchv ahc vahvch asv chas vch vahca cv hav"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="12sp"
+                    card_view:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+                    card_view:layout_constraintLeft_toRightOf="@+id/ivAdImage"
+                    card_view:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                    card_view:layout_constraintVertical_bias="1.0"
+                    card_view:layout_constraintRight_toLeftOf="@+id/ivOptions"
+                    android:layout_marginRight="0dp" />
+
+                <TextView
+                    android:id="@+id/tvLastUpdateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18:25"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="8sp"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginRight="-17dp"
+                    android:background="@color/colorPrimary"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent">
+
+                    <TextView
+                        android:id="@+id/tvCurrencyCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="USD"
+                        android:textColor="@android:color/white"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2dp"
+                        android:gravity="center"
+                        android:text="500000000"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>

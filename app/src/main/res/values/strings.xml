@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">1 And Only</string>
+    <string name="sample_property_details"><![CDATA[Sample details of the selected property goes heremnBZJ<cna af a askldj askl aklsf kaf k k kf ask aklsaklf a as asfh alalskaskljd kasjd kjafhasdjfnasdcadklckasdmcklamscklmasdklcm aklasd akdfjkla aklf kadafh a  a akfa afasdf asdfkl sdklaflasdncjklasdcjklasdnawnf df d asdlf asdasdf asd f sdf asdklf sdf;asdkjf sdsdhf lsadfhsdfasdjkf asdasdf asdfjklasdhf asjdasdhf jasd s sd sd dsf d d sdf sdklf sdf sd asdsdh fsldhf ;sdfs sdf sd sdfh ss]]></string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="back_button_text"><![CDATA[<< Back]]></string>
+    <string name="skip_button_text">Skip >></string>
+    <string name="delete_period_message">All of your ads will be inactivated automatically after below mentioned number of active days</string>
+</resources>

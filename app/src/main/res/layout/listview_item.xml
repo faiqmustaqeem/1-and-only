@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    swipe:leftEdgeSwipeOffset="0dp"
+    swipe:rightEdgeSwipeOffset="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:tag="Bottom3"
+        android:weightSum="10">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:text="Don't want to see this item?"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@drawable/register_button_background"
+            android:text="Remove"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:textStyle="italic"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="0dp">
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/white">
+
+            <TextView
+                android:id="@+id/position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clCountry"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/ivAdImage"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/sample_property_pic2"
+                    android:scaleType="centerCrop"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:gravity="left"
+                    android:text="Name"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    card_view:layout_constraintLeft_toRightOf="@+id/ivAdImage"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    card_view:layout_constraintTop_toBottomOf="@+id/tvLastUpdateTime"
+                    android:layout_marginRight="8dp"
+                    card_view:layout_constraintRight_toRightOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:paddingLeft="8dp"
+                    android:text="Description hbc hac hasvchv ahc vahvch asv chas vch vahca cv hav"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="12sp"
+                    card_view:layout_constraintLeft_toRightOf="@+id/ivAdImage"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    card_view:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                    android:layout_marginRight="8dp"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginBottom="8dp"
+                    card_view:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+                    card_view:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/tvLastUpdateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18:25"
+                    android:textSize="8sp"
+                    android:textColor="@android:color/holo_red_dark"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="-17dp"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="0dp"
+                    android:background="@color/colorPrimary"
+                    android:padding="4dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/linearLayout10">
+                    <TextView
+                        android:id="@+id/tvCurrencyCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="USD"
+                        android:textColor="@android:color/white"
+                        android:textSize="10sp"
+                        android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="500000000"
+                        android:layout_marginLeft="2dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>

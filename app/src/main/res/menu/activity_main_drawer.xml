@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_account_info_or_register"
+            android:title="Account Information" />
+        <item
+            android:id="@+id/nav_dashboard"
+            android:title="Dashboard" />
+        <item
+            android:id="@+id/nav_my_ads"
+            android:title="My Ads" />
+        <item
+            android:id="@+id/nav_change_password"
+            android:title="Change Password" />
+        <item
+            android:id="@+id/nav_delete_period"
+            android:title="Active Ads Period" />
+        <item
+            android:id="@+id/nav_sell_something"
+            android:title="Post Ad" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Log Out" />
+    </group>
+</menu>
