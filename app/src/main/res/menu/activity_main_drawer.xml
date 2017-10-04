@@ -19,7 +19,7 @@
             android:title="Active Ads Period" />
         <item
             android:id="@+id/nav_sell_something"
-            android:title="Post Ad" />
+            android:title="Post an Ad" />
         <item
             android:id="@+id/nav_logout"
             android:title="Log Out" />

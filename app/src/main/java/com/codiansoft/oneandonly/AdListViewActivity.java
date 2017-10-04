@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.codiansoft.oneandonly.AdDetailsActivity.isMyAd;
+import static com.codiansoft.oneandonly.GlobalClass.selectedItemDataModel;
 
 public class AdListViewActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -48,7 +49,6 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
     private Context mContext = this;
     Button bAddProperty, bHome, bSettings;
     TextView tvCategory;
-    public static PropertyListItemDataModel selectedItemDataModel;
 
     public static ArrayList<PropertyListItemDataModel> dataModels;
 

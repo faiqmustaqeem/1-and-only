@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
-                    android:text="Select City"
+                    android:text="Select Your Default City"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -132,7 +132,7 @@
             android:layout_height="match_parent"
             android:layout_weight="9"
             android:background="@drawable/register_button_background"
-            android:text="Save Configurations"
+            android:text="SAVE"
             android:textColor="@android:color/white"
             android:visibility="gone" />
 

@@ -95,6 +95,7 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                     setStatesInSpinner(countries.get(position).getID(), "", "");
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -133,9 +134,35 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                 startActivityForResult(intent, 1);
                 break;
             case R.id.bSave:
-                updateUserInfo();
+                if (validInputs()) {
+                    updateUserInfo();
+                }
                 break;
         }
+    }
+
+    private boolean validInputs() {
+        boolean check = false;
+        if (etUsername.getText().toString().equals("")) {
+            etUsername.setError("This field is required");
+            check = false;
+        } else if (etEmail.getText().toString().equals("")) {
+            etEmail.setError("This field is required");
+            check = false;
+        } else if (!etPhoneNumber.getText().toString().substring(0, 1).equals("+")) {
+            etPhoneNumber.setError("Enter number with calling code");
+            check = false;
+        } else if (!etMobileNumber.getText().toString().substring(0, 1).equals("+")) {
+            etMobileNumber.setError("Enter number with calling code");
+            check = false;
+        } else if (etPhoneNumber.getText().toString().length() < 9) {
+            etPhoneNumber.setError("Enter a valid contact number");
+            check = false;
+        } else if (etMobileNumber.getText().toString().length() < 9) {
+            etMobileNumber.setError("Enter a valid contact number");
+            check = false;
+        }
+        return check;
     }
 
     private void updateUserInfo() {
@@ -532,7 +559,7 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                                         break;
                                     }
                                 }
-                            } else{
+                            } else {
                                 setCitiesInSpinner(states.get(spStates.getSelectedItemPosition()).getID(), "");
                             }
 
@@ -627,7 +654,7 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                                         break;
                                     }
                                 }
-                            }else{
+                            } else {
 
                             }
 

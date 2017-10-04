@@ -126,7 +126,7 @@
                     android:id="@+id/etContact1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Contact Number 1"
+                    android:hint="Contact Number 1 e.g +966123456789"
                     android:inputType="phone"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
@@ -142,7 +142,7 @@
                     android:id="@+id/etContact2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Contact Number 2"
+                    android:hint="Contact Number 2 e.g +966123456780"
                     android:inputType="phone"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
@@ -160,7 +160,7 @@
                     android:drawableRight="@drawable/ic_not_done"
                     android:gravity="center_vertical"
                     android:paddingLeft="4dp"
-                    android:text="Save Configurations"
+                    android:text="Select your default location"
                     android:textColor="@color/text_color_save_config_not_done" />
 
             </android.support.v7.widget.CardView>

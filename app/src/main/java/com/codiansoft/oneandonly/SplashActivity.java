@@ -61,7 +61,6 @@ public class SplashActivity extends AppCompatActivity {
                     getUserCountry();
                 }
 
-
             }
         }, SPLASH_DISPLAY_LENGTH);
     }

@@ -1,5 +1,7 @@
 package com.codiansoft.oneandonly;
 
+import com.codiansoft.oneandonly.model.PropertyListItemDataModel;
+
 import java.util.ArrayList;
 
 /**
@@ -107,5 +109,6 @@ public class GlobalClass {
     public static String selectedSubCatDes3Title = "D3";
     public static String selectedSubCatDes4Title = "D4";
     public static String userCountryID = "";
-    ;
+
+    public static PropertyListItemDataModel selectedItemDataModel;
 }

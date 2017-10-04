@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -16,13 +18,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +39,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.codiansoft.oneandonly.adapter.ListViewAdapter;
 import com.codiansoft.oneandonly.dialog.DeletePeriodDialog;
 import com.codiansoft.oneandonly.model.CategoriesModel;
+import com.codiansoft.oneandonly.model.PropertyListItemDataModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,16 +52,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.codiansoft.oneandonly.GlobalClass.alreadyLoggedIn;
+import static com.codiansoft.oneandonly.GlobalClass.selectedItemDataModel;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
     private static final int PERMISSIONS_CODE = 11;
     Button bProperty, bVehicle, bElectronics, bTravel, bLeisure, bBusiness, bAdults, bFood, bCareer, bLifestyle, bJobsAndTraining, bHomeAndGarden;
-    public static ProgressBar progressBar;
     public static ArrayList<CategoriesModel> categories;
     CategoriesModel categoriesModel;
     ProgressDialog progressDialog;
+
+    //for search list
+    RecyclerView rvSearchedAds;
+    public static ProgressBar progressBar;
+    public static PropertyListItemDataModel searchedAdsModel;
+    private ListViewAdapter mAdapter;
+    ArrayList<PropertyListItemDataModel> dataModels = new ArrayList<PropertyListItemDataModel>();
+    private ListView mListView;
+
+    ConstraintLayout clMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +98,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initUI();
         requestPermissions();
         fetchCategories();
+
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                selectedItemDataModel = dataModels.get(position);
+                GlobalClass.selectedAdImages = selectedItemDataModel.getAdImages();
+
+                GlobalClass.selectedPropertyName = selectedItemDataModel.getName();
+                GlobalClass.selectedPropertyCity = selectedItemDataModel.getCity();
+                GlobalClass.selectedPropertyUpdateTime = selectedItemDataModel.getLastUpdateTime();
+                GlobalClass.selectedPropertyID = selectedItemDataModel.getID();
+//                Toast.makeText(mContext, position+" "+GlobalClass.selectedPropertyID, Toast.LENGTH_SHORT).show();
+                GlobalClass.selectedPropertyDetails = selectedItemDataModel.getDetails();
+                GlobalClass.selectedPropertyContact1 = selectedItemDataModel.getContact1();
+                GlobalClass.selectedPropertyContact2 = selectedItemDataModel.getContact2();
+                GlobalClass.selectedPropertyEmail = selectedItemDataModel.getEmail();
+                GlobalClass.selectedPropertyImageURL = selectedItemDataModel.getImageURL();
+                GlobalClass.selectedPropertyCategory = selectedItemDataModel.getCategory();
+                GlobalClass.selectedPropertyLatitude = selectedItemDataModel.getLatitude();
+                GlobalClass.selectedPropertyLongitude = selectedItemDataModel.getLongitude();
+
+                Intent i = new Intent(MainActivity.this, AdDetailsActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
     }
 
     private void requestPermissions() {
@@ -96,9 +142,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Manifest.permission.INTERNET
             };
             ActivityCompat.requestPermissions(MainActivity.this, permissions, PERMISSIONS_CODE);
-
-
-
 
 
 
@@ -329,6 +372,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bHomeAndGarden = (Button) findViewById(R.id.bHomeAndGarden);
         bHomeAndGarden.setOnClickListener(this);
 
+        mListView = (ListView) findViewById(R.id.lvSearchedAds);
+        clMain = (ConstraintLayout) findViewById(R.id.clMain);
+
 
     }
 
@@ -338,7 +384,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (clMain.getVisibility() == View.GONE){
+                clMain.setVisibility(View.VISIBLE);
+                mListView.setVisibility(View.GONE);
+            } else super.onBackPressed();
         }
     }
 
@@ -346,7 +395,140 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                clMain.setVisibility(View.GONE);
+                mListView.setVisibility(View.VISIBLE);
+                dataModels.clear();
+                fetchSearchedAds(s);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+
+                return true;
+            }
+        });
+
         return true;
+    }
+
+    private void fetchSearchedAds(final String s) {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Searching...");
+        progressDialog.setProgressNumberFormat(null);
+        progressDialog.setProgressPercentFormat(null);
+        progressDialog.show();
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, GlobalClass.FETCH_ALL_ADDS_URL,
+                new Response.Listener<String>() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        try {
+                            JSONObject Jobject = new JSONObject(response);
+                            JSONObject result = Jobject.getJSONObject("result");
+                            if (result.get("status").equals("success")) {
+                                JSONArray data = Jobject.getJSONArray("data");
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject adObj = data.getJSONObject(i);
+
+                                    if (adObj.getString("title").toLowerCase().contains(s.toLowerCase())
+                                            | adObj.getString("city").toLowerCase().contains(s.toLowerCase())
+                                            | adObj.getString("description").toLowerCase().contains(s.toLowerCase())
+                                            | adObj.getString("country_name").toLowerCase().contains(s.toLowerCase())
+                                            | adObj.getString("state_name").toLowerCase().contains(s.toLowerCase())
+                                            | adObj.getString("city_name").toLowerCase().contains(s.toLowerCase())
+                                            | adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())
+                                            | adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())
+                                            | adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())
+                                            | adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())) {
+
+                                        ArrayList<String> adImages = new ArrayList<String>();
+                                        JSONArray adImagesArr = adObj.getJSONArray("images");
+
+                                        for (int j = 0; j < adImagesArr.length(); j++) {
+                                            adImages.add(adImagesArr.getJSONObject(j).getString("path"));
+                                        }
+                                        ArrayList<String> adImagesTemp = adImages;
+                                        dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "https://cdn.houseplans.com/product/o2d2ui14afb1sov3cnslpummre/w560x373.jpg?v=15", adObj.getString("ad_latitude"), adObj.getString("ad_longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4")));
+                                    }
+                                }
+
+                                if (dataModels.size() < 1)
+                                    mListView.setBackground(getResources().getDrawable(R.drawable.ic_not_found));
+
+                                mAdapter = new ListViewAdapter(MainActivity.this, dataModels);
+                                mListView.setAdapter(mAdapter);
+                                progressDialog.dismiss();
+
+//                                Toast.makeText(MainActivity.this, "Ads fetched successfully!", Toast.LENGTH_SHORT).show();
+
+                            } else if (result.get("status").equals("error")) {
+                                Toast.makeText(MainActivity.this, "Recheck and try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+
+                        } catch (Exception ee) {
+                            Toast.makeText(MainActivity.this, "error: " + ee.toString(), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+
+                        }
+
+                        progressDialog.dismiss();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse response = error.networkResponse;
+                        progressDialog.dismiss();
+                        if (response != null && response.data != null) {
+                            switch (response.statusCode) {
+                                case 409:
+//                                    utilities.dialog("Already Exist", act);
+                                    break;
+                                case 400:
+                                    Toast.makeText(MainActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                                default:
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                            }
+                        }
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                SharedPreferences settings = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                String userID = settings.getString("userID", "defaultValue");
+                String apiSecretKey = settings.getString("apiSecretKey", "");
+                String email = settings.getString("email", "");
+                String contactNum1 = settings.getString("contactNum1", "");
+                String contactNum2 = settings.getString("contactNum2", "");
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("api_secret", apiSecretKey);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
     }
 
     @Override
@@ -573,7 +755,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     } else {
                         for (int i = 0; i < categories.size(); i++) {
                             if (categories.get(i).getName().equals("Adults")) {
-
 
                                 GlobalClass.selectedCategory = categories.get(i).getName();
                                 GlobalClass.selectedCategoryID = categories.get(i).getCategory_Id();

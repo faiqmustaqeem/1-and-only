@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.codiansoft.oneandonly.AdListViewActivity.selectedItemDataModel;
+import static com.codiansoft.oneandonly.GlobalClass.selectedItemDataModel;
 
 public class AdDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 

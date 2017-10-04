@@ -28,7 +28,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.codiansoft.oneandonly.AdListViewActivity.selectedItemDataModel;
+import static com.codiansoft.oneandonly.GlobalClass.selectedItemDataModel;
 
 public class ReportAdActivity extends AppCompatActivity {
 

@@ -77,9 +77,6 @@ public class ListViewAdapterLevel2States extends BaseAdapter {
             e.printStackTrace();
         }
 
-
-
-
         return convertView;
     }
 

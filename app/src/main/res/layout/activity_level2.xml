@@ -86,7 +86,7 @@
             android:layout_height="match_parent"
             android:layout_weight="9"
             android:background="@drawable/register_button_background"
-            android:text="Save Configurations"
+            android:text="SAVE SETTINGS"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

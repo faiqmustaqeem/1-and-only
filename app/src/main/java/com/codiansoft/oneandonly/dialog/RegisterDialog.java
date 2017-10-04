@@ -50,7 +50,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
     public static TextView tvSaveConfigurations;
     public static boolean savedConfigurations;
 
-    String newUserAPIsecret,newUserUserID,newUserEmail,newUserContact1,newUserContact2,newUserCountry,newUserState,newUserCity;
+    String newUserAPIsecret, newUserUserID, newUserEmail, newUserContact1, newUserContact2, newUserCountry, newUserState, newUserCity;
 
     public RegisterDialog(Activity a) {
         super(a);
@@ -102,7 +102,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
                         /*Intent i = new Intent(act, MainActivity.class);
                         act.startActivity(i);*/
                         registerUser();
-                    }else{
+                    } else {
                         Toast.makeText(act, "Check fields", Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -159,7 +159,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
                                 if (result.getString("response").equals("Invalid Email Address.")) {
                                     etEmail.setError("Please enter a valid email address");
                                     Toast.makeText(act, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
-                                }else if (result.getString("response").equals("Email Already Exists.")) {
+                                } else if (result.getString("response").equals("Email Already Exists.")) {
                                     etEmail.setError("This email is already registered");
                                     Toast.makeText(act, "This email is already registered", Toast.LENGTH_SHORT).show();
                                 }
@@ -184,7 +184,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
                         error.printStackTrace();
 
                         Log.e("VOLLEY", error.getMessage());
-                        Toast.makeText(act, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(act, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
 
                         if (response != null && response.data != null) {
                             switch (response.statusCode) {
@@ -249,9 +249,11 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
                                 editor.putString("apiSecretKey", newUserAPIsecret);
                                 editor.putString("userID", newUserUserID);
                                 editor.putString("email", newUserEmail);
-                                if(newUserContact1 != null) editor.putString("contactNum1", newUserContact1);
+                                if (newUserContact1 != null)
+                                    editor.putString("contactNum1", newUserContact1);
                                 else editor.putString("contactNum1", "");
-                                if(newUserContact2 != null) editor.putString("contactNum2", newUserContact2);
+                                if (newUserContact2 != null)
+                                    editor.putString("contactNum2", newUserContact2);
                                 else editor.putString("contactNum2", "");
                                 editor.putString("country", newUserCountry);
                                 editor.putString("country", newUserState);
@@ -312,13 +314,13 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 
                 Map<String, String> params = new HashMap<String, String>();
 
-                for (int i = 0; i< savedCategoriesDataModels.size(); i++){
-                    ids = ids+savedCategoriesDataModels.get(i).getID()+",";
-                    statuses = statuses+savedCategoriesDataModels.get(i).getStatus()+",";
+                for (int i = 0; i < savedCategoriesDataModels.size(); i++) {
+                    ids = ids + savedCategoriesDataModels.get(i).getID() + ",";
+                    statuses = statuses + savedCategoriesDataModels.get(i).getStatus() + ",";
                 }
 
-                ids = ids.substring(0,ids.length()-1)+"";
-                statuses = statuses.substring(0,statuses.length()-1)+"";
+                ids = ids.substring(0, ids.length() - 1) + "";
+                statuses = statuses.substring(0, statuses.length() - 1) + "";
 
                 params.put("api_secret", newUserAPIsecret);
                 params.put("cat_id", ids);
@@ -346,8 +348,20 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
         } else if (etContact1.getText().toString().equals("")) {
             etContact1.setError("This field is required");
             check = false;
-        } else if (etContact1.getText().toString().equals("")) {
+        } else if (etContact2.getText().toString().equals("")) {
             etContact2.setError("This field is required");
+            check = false;
+        } else if (!etContact1.getText().toString().substring(0, 1).equals("+")) {
+            etContact1.setError("Enter number with calling code");
+            check = false;
+        } else if (!etContact2.getText().toString().substring(0, 1).equals("+")) {
+            etContact2.setError("Enter number with calling code");
+            check = false;
+        } else if (etContact1.getText().toString().length() < 9) {
+            etContact1.setError("Enter a valid contact number");
+            check = false;
+        } else if (etContact2.getText().toString().length() < 9) {
+            etContact2.setError("Enter a valid contact number");
             check = false;
         } else if (etPassword.getText().toString().length() < 6) {
             etPassword.setError("Minimum 6 characters allowed");
