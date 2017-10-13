@@ -1,6 +1,7 @@
 package com.codiansoft.oneandonly;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
     private static final int PERMISSIONS_CODE = 11;
+    private static final int REQUEST_CODE_FILTER_ACTIVITY = 22;
     Button bProperty, bVehicle, bElectronics, bTravel, bLeisure, bBusiness, bAdults, bFood, bCareer, bLifestyle, bJobsAndTraining, bHomeAndGarden;
     public static ArrayList<CategoriesModel> categories;
     CategoriesModel categoriesModel;
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ListViewAdapter mAdapter;
     ArrayList<PropertyListItemDataModel> dataModels = new ArrayList<PropertyListItemDataModel>();
     private ListView mListView;
+    private Button bFilter;
 
     ConstraintLayout clMain;
 
@@ -98,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initUI();
         requestPermissions();
         fetchCategories();
-
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -142,11 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Manifest.permission.INTERNET
             };
             ActivityCompat.requestPermissions(MainActivity.this, permissions, PERMISSIONS_CODE);
-
-
-
-
-
 
 /*            if ( (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
                     | (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
@@ -373,6 +370,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bHomeAndGarden.setOnClickListener(this);
 
         mListView = (ListView) findViewById(R.id.lvSearchedAds);
+        bFilter = (Button) findViewById(R.id.bFilter);
+        bFilter.setOnClickListener(this);
         clMain = (ConstraintLayout) findViewById(R.id.clMain);
 
 
@@ -384,9 +383,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (clMain.getVisibility() == View.GONE){
+            if (clMain.getVisibility() == View.GONE) {
                 clMain.setVisibility(View.VISIBLE);
                 mListView.setVisibility(View.GONE);
+                bFilter.setVisibility(View.GONE);
             } else super.onBackPressed();
         }
     }
@@ -403,7 +403,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onQueryTextSubmit(String s) {
                 clMain.setVisibility(View.GONE);
                 mListView.setVisibility(View.VISIBLE);
+                bFilter.setVisibility(View.VISIBLE);
                 dataModels.clear();
+                progressDialog.dismiss();
                 fetchSearchedAds(s);
 
                 return false;
@@ -465,13 +467,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "https://cdn.houseplans.com/product/o2d2ui14afb1sov3cnslpummre/w560x373.jpg?v=15", adObj.getString("ad_latitude"), adObj.getString("ad_longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4")));
                                     }
                                 }
+                                progressDialog.dismiss();
 
-                                if (dataModels.size() < 1)
+                                if (dataModels.size() < 1) {
                                     mListView.setBackground(getResources().getDrawable(R.drawable.ic_not_found));
+                                }
 
                                 mAdapter = new ListViewAdapter(MainActivity.this, dataModels);
                                 mListView.setAdapter(mAdapter);
-                                progressDialog.dismiss();
 
 //                                Toast.makeText(MainActivity.this, "Ads fetched successfully!", Toast.LENGTH_SHORT).show();
 
@@ -581,12 +584,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_change_password) {
 
-        } else if (id == R.id.nav_delete_period) {
+        } /*else if (id == R.id.nav_delete_period) {
 
             DeletePeriodDialog deletePeriodDialog = new DeletePeriodDialog(this);
             deletePeriodDialog.show();
 
-        } else if (id == R.id.nav_logout) {
+        }*/ else if (id == R.id.nav_logout) {
 
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("Are you sure to log out?")
@@ -691,7 +694,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     /*SubCategoriesDialog subCategoriesDialog = new SubCategoriesDialog(this);
                     subCategoriesDialog.show();*/
-
 
                 /*
                 Intent electronicsIntent = new Intent(MainActivity.this, AdListViewActivity.class);
@@ -844,6 +846,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                     break;
+                case R.id.bFilter:
+                    Intent intent = new Intent(this, SearchFiltersActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_FILTER_ACTIVITY);
+                    break;
             }
         }
     }
@@ -874,5 +880,143 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_FILTER_ACTIVITY) {
+
+            if (resultCode == Activity.RESULT_OK) {
+                String searchName = data.getStringExtra("searchName");
+                String searchCountry = data.getStringExtra("searchCountry");
+                String searchState = data.getStringExtra("searchState");
+                String searchCity = data.getStringExtra("searchCity");
+                // do something with the result
+
+                fetchSearchedAds(searchName, searchCountry, searchState, searchCity);
+
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // some stuff that will happen if there's no result
+            }
+        }
+    }
+
+    private void fetchSearchedAds(final String searchName, final String searchCountry, final String searchState, final String searchCity) {
+        dataModels.clear();
+        mAdapter.notifyDataSetChanged();
+
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Searching...");
+        progressDialog.setProgressNumberFormat(null);
+        progressDialog.setProgressPercentFormat(null);
+        progressDialog.show();
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, GlobalClass.FETCH_ALL_ADDS_URL,
+                new Response.Listener<String>() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        try {
+                            JSONObject Jobject = new JSONObject(response);
+                            JSONObject result = Jobject.getJSONObject("result");
+                            if (result.get("status").equals("success")) {
+                                JSONArray data = Jobject.getJSONArray("data");
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject adObj = data.getJSONObject(i);
+
+                                    if (
+                                            (adObj.getString("title").toLowerCase().contains(searchName.toLowerCase())
+                                                    | adObj.getString("dis_1").toLowerCase().contains(searchName.toLowerCase())
+                                                    | adObj.getString("dis_1").toLowerCase().contains(searchName.toLowerCase())
+                                                    | adObj.getString("dis_1").toLowerCase().contains(searchName.toLowerCase())
+                                                    | adObj.getString("dis_1").toLowerCase().contains(searchName.toLowerCase())
+                                                    | adObj.getString("description").toLowerCase().contains(searchName.toLowerCase())
+                                            )
+                                                    & (adObj.getString("country_name").toLowerCase().contains(searchCountry.toLowerCase())
+                                                    & adObj.getString("state_name").toLowerCase().contains(searchState.toLowerCase())
+                                                    & adObj.getString("city_name").toLowerCase().contains(searchCity.toLowerCase())
+                                            )
+                                            ) {
+
+                                        ArrayList<String> adImages = new ArrayList<String>();
+                                        JSONArray adImagesArr = adObj.getJSONArray("images");
+
+                                        for (int j = 0; j < adImagesArr.length(); j++) {
+                                            adImages.add(adImagesArr.getJSONObject(j).getString("path"));
+                                        }
+                                        ArrayList<String> adImagesTemp = adImages;
+                                        dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "https://cdn.houseplans.com/product/o2d2ui14afb1sov3cnslpummre/w560x373.jpg?v=15", adObj.getString("ad_latitude"), adObj.getString("ad_longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4")));
+                                    }
+                                }
+                                progressDialog.dismiss();
+
+                                if (dataModels.size() < 1) {
+                                    mListView.setBackground(getResources().getDrawable(R.drawable.ic_not_found));
+                                }
+
+                                mAdapter = new ListViewAdapter(MainActivity.this, dataModels);
+                                mListView.setAdapter(mAdapter);
+
+//                                Toast.makeText(MainActivity.this, "Ads fetched successfully!", Toast.LENGTH_SHORT).show();
+
+                            } else if (result.get("status").equals("error")) {
+                                Toast.makeText(MainActivity.this, "Recheck and try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+
+                        } catch (Exception ee) {
+                            Toast.makeText(MainActivity.this, "error: " + ee.toString(), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+
+                        }
+
+                        progressDialog.dismiss();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse response = error.networkResponse;
+                        progressDialog.dismiss();
+                        if (response != null && response.data != null) {
+                            switch (response.statusCode) {
+                                case 409:
+//                                    utilities.dialog("Already Exist", act);
+                                    break;
+                                case 400:
+                                    Toast.makeText(MainActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                                default:
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                            }
+                        }
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                SharedPreferences settings = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                String userID = settings.getString("userID", "defaultValue");
+                String apiSecretKey = settings.getString("apiSecretKey", "");
+                String email = settings.getString("email", "");
+                String contactNum1 = settings.getString("contactNum1", "");
+                String contactNum2 = settings.getString("contactNum2", "");
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("api_secret", apiSecretKey);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
     }
 }

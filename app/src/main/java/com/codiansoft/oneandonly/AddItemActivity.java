@@ -85,6 +85,8 @@ public class AddItemActivity extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 11;
 //    private static AdapterView spCategory;
 
+    static int activeDays = 7;
+
     public static Activity addItemAct;
 
     int backCount;
@@ -94,6 +96,7 @@ public class AddItemActivity extends AppCompatActivity {
     static Spinner spCity;
     static Spinner spCategory;
     static Spinner spSubCategory;
+    static Spinner spActiveDays;
     ImageView ivGallery, ivCamera;
     ImageView ivImage1, ivImage2, ivImage3, ivImage4;
     Bitmap bitmap;
@@ -187,7 +190,7 @@ public class AddItemActivity extends AppCompatActivity {
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(AddItemActivity.this,new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+                            ActivityCompat.requestPermissions(AddItemActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
                         } else {
                             values = new ContentValues();
                             values.put(MediaStore.Images.Media.TITLE, "New Picture");
@@ -286,6 +289,28 @@ public class AddItemActivity extends AppCompatActivity {
                 tvDes2.setText(GlobalClass.selectedSubCatDes2Title);
                 tvDes3.setText(GlobalClass.selectedSubCatDes3Title);
                 tvDes4.setText(GlobalClass.selectedSubCatDes4Title);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
+        spSubCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == 0) {
+                    activeDays = 7;
+                } else if (position == 1) {
+                    activeDays = 14;
+                } else if (position == 2) {
+                    activeDays = 30;
+                } else if (position == 3) {
+                    activeDays = 60;
+                } else if (position == 4) {
+                    activeDays = 90;
+                }
             }
 
             @Override
@@ -858,6 +883,8 @@ public class AddItemActivity extends AppCompatActivity {
                 params.put("state", adStateID);
                 params.put("city", adCityID);
 
+                params.put("expiry_days", activeDays + "");
+
                 return params;
             }
         };
@@ -889,7 +916,7 @@ public class AddItemActivity extends AppCompatActivity {
                                     if (progressBar.isShown()) {
                                         progressBar.setVisibility(View.GONE);
                                     }
-                                    if (GlobalClass.selectedAddPostType.equals("alternate")){
+                                    if (GlobalClass.selectedAddPostType.equals("alternate")) {
                                         adCountriesActivity.finish();
                                         adStatesActivity.finish();
                                         adCitiesActivity.finish();
@@ -1286,6 +1313,7 @@ public class AddItemActivity extends AppCompatActivity {
         spStates = (Spinner) findViewById(R.id.spState);
         spCategory = (Spinner) findViewById(R.id.spCategory);
         spSubCategory = (Spinner) findViewById(R.id.spSubCategory);
+        spActiveDays = (Spinner) findViewById(R.id.spActiveDays);
         bSubmit = (Button) findViewById(R.id.bSubmit);
         bSetLoc = (Button) findViewById(R.id.bSetLoc);
         etDescription = (EditText) findViewById(R.id.etDescription);
@@ -1336,6 +1364,12 @@ public class AddItemActivity extends AppCompatActivity {
         ivCamera = (ImageView) findViewById(R.id.ivCamera2);
 
         initCategories();
+
+        String[] activeDaysArray = {"1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"};
+        // Application of the Array to the Spinner
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(AddItemActivity.this, android.R.layout.simple_spinner_item, activeDaysArray);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        spActiveDays.setAdapter(spinnerArrayAdapter);
 
 /*        //Initialize countries list
         Locale[] locale = Locale.getAvailableLocales();
@@ -1636,8 +1670,7 @@ public class AddItemActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Now user should be able to use camera
                 Toast.makeText(this, "Permission granted for camera", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 // Your app will not have this permission. Turn off all functions
                 // that require this permission or it will force close
                 Toast.makeText(this, "No permission granted for camera", Toast.LENGTH_SHORT).show();

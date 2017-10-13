@@ -23,6 +23,7 @@ android {
     }
 }
 
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -48,6 +49,6 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.android.gms:play-services-places:10.2.1'
     compile 'com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2@aar'
+    compile 'me.leolin:ShortcutBadger:1.1.18@aar'
     testCompile 'junit:junit:4.12'
-    compile "me.leolin:ShortcutBadger:1.1.18@aar"
 }

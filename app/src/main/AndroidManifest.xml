@@ -106,8 +106,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AddItemActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ChooseSubCategoryActivity"
             android:screenOrientation="portrait" />
@@ -136,7 +136,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ReportAdActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".SearchFiltersActivity"></activity>
     </application>
 
 </manifest>
