@@ -80,8 +80,8 @@ public class ChooseSubCategoryActivity extends AppCompatActivity implements View
 
 //                Toast.makeText(ChooseSubCategoryActivity.this, GlobalClass.selectedSubCatDes1Title + GlobalClass.selectedSubCatDes2Title + GlobalClass.selectedSubCatDes3Title + GlobalClass.selectedSubCatDes4Title, Toast.LENGTH_LONG).show();
 
-                Intent electronicsIntent = new Intent(ChooseSubCategoryActivity.this, AdListViewActivity.class);
-                startActivity(electronicsIntent);
+                Intent i = new Intent(ChooseSubCategoryActivity.this, AdListViewActivity.class);
+                startActivity(i);
 
             }
 

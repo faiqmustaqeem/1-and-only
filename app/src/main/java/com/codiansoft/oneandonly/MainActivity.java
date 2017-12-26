@@ -19,8 +19,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -179,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onResponse(String response) {
                         // response
                         try {
+                            Log.e("fetch_categories",response);
                             JSONObject Jobject = new JSONObject(response);
                             JSONObject result = Jobject.getJSONObject("result");
                             if (result.get("status").equals("success")) {
@@ -280,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("api_secret", apiSecretKey);
+                Log.e("api_secret",apiSecretKey);
                 return params;
             }
         };
@@ -436,6 +440,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new Response.Listener<String>() {
                     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                     @Override
+
                     public void onResponse(String response) {
                         // response
                         try {
@@ -447,15 +452,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     JSONObject adObj = data.getJSONObject(i);
 
                                     if (adObj.getString("title").toLowerCase().contains(s.toLowerCase())
-                                            | adObj.getString("city").toLowerCase().contains(s.toLowerCase())
-                                            | adObj.getString("description").toLowerCase().contains(s.toLowerCase())
-                                            | adObj.getString("country_name").toLowerCase().contains(s.toLowerCase())
-                                            | adObj.getString("state_name").toLowerCase().contains(s.toLowerCase())
-                                            | adObj.getString("city_name").toLowerCase().contains(s.toLowerCase())
-                                            | adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())
-                                            | adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())
-                                            | adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())
-                                            | adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())) {
+                                            || adObj.getString("city").toLowerCase().contains(s.toLowerCase())
+                                            || adObj.getString("description").toLowerCase().contains(s.toLowerCase())
+                                            || adObj.getString("country_name").toLowerCase().contains(s.toLowerCase())
+                                            || adObj.getString("state_name").toLowerCase().contains(s.toLowerCase())
+                                            || adObj.getString("city_name").toLowerCase().contains(s.toLowerCase())
+                                            || adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())
+                                            || adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())
+                                            || adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())
+                                            || adObj.getString("dis_1").toLowerCase().contains(s.toLowerCase())) {
 
                                         ArrayList<String> adImages = new ArrayList<String>();
                                         JSONArray adImagesArr = adObj.getJSONArray("images");
@@ -465,6 +470,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         }
                                         ArrayList<String> adImagesTemp = adImages;
                                         dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "https://cdn.houseplans.com/product/o2d2ui14afb1sov3cnslpummre/w560x373.jpg?v=15", adObj.getString("ad_latitude"), adObj.getString("ad_longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4")));
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(MainActivity.this, "No Records Found.",Toast.LENGTH_LONG).show();
+
                                     }
                                 }
                                 progressDialog.dismiss();
@@ -493,6 +503,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     }
                 },
+
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
@@ -514,7 +525,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 }
-        ) {
+        )
+        {
             @Override
             protected Map<String, String> getParams() {
 
@@ -531,6 +543,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return params;
             }
         };
+
         queue.add(postRequest);
     }
 

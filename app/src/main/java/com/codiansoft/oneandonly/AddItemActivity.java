@@ -23,6 +23,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -128,6 +130,7 @@ public class AddItemActivity extends AppCompatActivity {
     TextView tvDes2;
     TextView tvDes3;
     TextView tvDes4;
+    TextView char_count;
 
     static String locLat;
     static String locLog;
@@ -154,6 +157,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     ContentValues values;
     Uri imageUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -436,6 +440,22 @@ public class AddItemActivity extends AppCompatActivity {
                         startActivity(i);
                     }
                 }
+            }
+        });
+        etDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                char_count.setText("("+String.valueOf(charSequence.length())+"/"+"1300)");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }
@@ -1328,7 +1348,7 @@ public class AddItemActivity extends AppCompatActivity {
         tvDes2 = (TextView) findViewById(R.id.tvDescription2);
         tvDes3 = (TextView) findViewById(R.id.tvDescription3);
         tvDes4 = (TextView) findViewById(R.id.tvDescription4);
-
+        char_count=(TextView)findViewById(R.id.char_count);
         tvSaveAdLocations = (TextView) findViewById(R.id.tvSaveAdLocations);
 
         rbAlternate = (RadioButton) findViewById(R.id.rbSendToAlternateLoc);
@@ -1365,7 +1385,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         initCategories();
 
-        String[] activeDaysArray = {"1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"};
+        String[] activeDaysArray = {"1 Week (1 USD)", "2 Weeks (1.5 USD)", "1 Month (2.5 USD)", "2 Months (3.5 USD)", "3 Months (5 USD)"};
         // Application of the Array to the Spinner
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(AddItemActivity.this, android.R.layout.simple_spinner_item, activeDaysArray);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view

@@ -143,13 +143,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:visibility="gone">
+
+        android:visibility="visible">
 
         <Button
             android:id="@+id/bSave"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="8"
+
             android:background="@drawable/register_button_background"
             android:text="Set Ad Location"
             android:textColor="@android:color/white"

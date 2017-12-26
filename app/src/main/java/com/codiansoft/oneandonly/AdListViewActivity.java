@@ -195,6 +195,7 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
                     public void onResponse(String response) {
                         // response
                         try {
+                            Log.e("fetch_all_adds",response);
                             JSONObject Jobject = new JSONObject(response);
                             JSONObject result = Jobject.getJSONObject("result");
                             if (result.get("status").equals("success")) {

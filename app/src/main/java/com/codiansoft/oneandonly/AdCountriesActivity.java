@@ -64,7 +64,9 @@ public class AdCountriesActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad_countries);
         adCountriesActivity = this;
+
         initUI();
+
         dataModels = new ArrayList<CountriesDataModel>();
         mListView = (ListView) findViewById(R.id.listview);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -187,13 +189,15 @@ public class AdCountriesActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bSave:
-                if (!GlobalClass.selectedAddPostCountry.equals("")) {
+                if (!GlobalClass.selectedAddPostCountry.equals(""))
+                {
                     savedAdLocations = true;
                     tvSaveAdLocations.setTextColor(getResources().getColor(R.color.text_color_save_config_done));
                     Drawable img = getResources().getDrawable(R.drawable.ic_done);
                     tvSaveAdLocations.setCompoundDrawablesWithIntrinsicBounds(null, null, img, null);
                     finish();
-                } else {
+                }
+                else {
                     Toast.makeText(mContext, "Turn on a country", Toast.LENGTH_SHORT).show();
                 }
                 break;
