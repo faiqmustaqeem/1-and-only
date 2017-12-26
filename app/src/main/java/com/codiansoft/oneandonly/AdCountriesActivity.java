@@ -75,12 +75,13 @@ public class AdCountriesActivity extends AppCompatActivity implements View.OnCli
                 actionBar.hide();
             }
         }
-        getSupportActionBar().hide();
-        initializeCountriesList();
+             getSupportActionBar().hide();
+            initializeCountriesList();
 
 
-        etSearch.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
+            etSearch.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s)
+            {
 
             }
 
@@ -91,7 +92,7 @@ public class AdCountriesActivity extends AppCompatActivity implements View.OnCli
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(mAdapter != null) mAdapter.getFilter().filter(s.toString());
             }
-        });
+            });
 
     }
 
@@ -118,6 +119,7 @@ public class AdCountriesActivity extends AppCompatActivity implements View.OnCli
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            progressBar.setVisibility(View.GONE);
                         }
 
                         if (progressBar.isShown()) {
@@ -154,6 +156,7 @@ public class AdCountriesActivity extends AppCompatActivity implements View.OnCli
         ) {
             @Override
             protected Map<String, String> getParams() {
+
                 Map<String, String> params = new HashMap<String, String>();
 
                 return params;
@@ -183,6 +186,7 @@ public class AdCountriesActivity extends AppCompatActivity implements View.OnCli
         bSetStates.setOnClickListener(this);
         tvBack.setOnClickListener(this);
         ivSearch.setOnClickListener(this);
+
     }
 
     @Override
@@ -197,6 +201,7 @@ public class AdCountriesActivity extends AppCompatActivity implements View.OnCli
                     tvSaveAdLocations.setCompoundDrawablesWithIntrinsicBounds(null, null, img, null);
                     finish();
                 }
+
                 else {
                     Toast.makeText(mContext, "Turn on a country", Toast.LENGTH_SHORT).show();
                 }

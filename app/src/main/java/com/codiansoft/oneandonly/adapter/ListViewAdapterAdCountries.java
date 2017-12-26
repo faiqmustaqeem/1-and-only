@@ -132,6 +132,7 @@ public class ListViewAdapterAdCountries extends BaseAdapter implements Filterabl
                         }
                     }
 //                    Toast.makeText(mContext, GlobalClass.selectedAddPostCountry, Toast.LENGTH_SHORT).show();if (!GlobalClass.selectedAddPostCountry.equals("")) {
+                // yahan p chng karna hai
                     Intent i = new Intent(mContext, AdStatesActivity.class);
                     mContext.startActivity(i);
 

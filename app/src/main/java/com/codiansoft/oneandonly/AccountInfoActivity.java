@@ -479,7 +479,8 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                         finish();
                     }
                 }
-        ) {
+        )
+        {
             @Override
             protected Map<String, String> getParams() {
 

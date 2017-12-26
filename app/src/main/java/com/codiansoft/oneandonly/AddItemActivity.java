@@ -422,6 +422,10 @@ public class AddItemActivity extends AppCompatActivity {
                 } else if (rbAlternate.isChecked()) {
                     GlobalClass.selectedAddPostType = "alternate";
                 }
+                else // if none is checked
+                {
+                    GlobalClass.selectedAddPostType = "default";
+                }
 
                 if (checkFields()) {
                     GlobalClass.postingAd = true;

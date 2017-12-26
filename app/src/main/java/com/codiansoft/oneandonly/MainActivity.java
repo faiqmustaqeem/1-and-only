@@ -309,6 +309,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bVehicle.setText(categories.get(i).getQuantity());
                 continue;
             }
+
             if (categories.get(i).getName().equals("Leisure")) {
                 bLeisure.setText(categories.get(i).getQuantity());
                 continue;
@@ -636,7 +637,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }).show();
 
 
-        } else if (id == R.id.nav_sell_something) {
+        } else if (id == R.id.nav_sell_something)
+        {
             Intent addItemIntent = new Intent(MainActivity.this, AddItemActivity.class);
             startActivity(addItemIntent);
         }
