@@ -97,7 +97,8 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
         switch (v.getId()) {
             case R.id.bSubmit:
 
-                if (savedConfigurations) {
+                //if (savedConfigurations)
+                {
                     if (validInputs()) {
                         /*Intent i = new Intent(act, MainActivity.class);
                         act.startActivity(i);*/
@@ -105,9 +106,10 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
                     } else {
                         Toast.makeText(act, "Check fields", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(act, "No configurations saved", Toast.LENGTH_SHORT).show();
                 }
+//                else {
+//                    Toast.makeText(act, "No configurations saved", Toast.LENGTH_SHORT).show();
+//                }
 
                 break;
             case R.id.tvSaveConfigurations:
@@ -128,7 +130,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 
         RequestQueue queue = Volley.newRequestQueue(act);
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, "http://codiansoft.com:80/salal/OneAndOnly/index.php/api/user/register",
+        StringRequest postRequest = new StringRequest(Request.Method.POST, "http://codiansoft.com/salal/OneAndOnly/index.php/api/user/register",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -183,10 +185,11 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
                         NetworkResponse response = error.networkResponse;
                         error.printStackTrace();
 
-                        Log.e("VOLLEY", error.getMessage());
-                        Toast.makeText(act, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
 
                         if (response != null && response.data != null) {
+
+                            Log.e("VOLLEY", error.getMessage());
+                            Toast.makeText(act, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
                             switch (response.statusCode) {
                                 case 409:
 //                                    utilities.dialog("Already Exist", act);
@@ -208,6 +211,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
         ) {
             @Override
             protected Map<String, String> getParams() {
+
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("name", etName.getText().toString());
                 params.put("email", etEmail.getText().toString());
@@ -219,7 +223,9 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
                 params.put("city", GlobalClass.selectedLevel2CityID);
                 params.put("state_id", GlobalClass.selectedLevel2StateID);
 
+                Log.e("params" , params.toString());
                 return params;
+
             }
         };
         queue.add(postRequest);

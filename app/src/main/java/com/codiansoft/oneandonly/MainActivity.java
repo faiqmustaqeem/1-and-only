@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
@@ -35,6 +36,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -235,10 +238,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                 progressDialog.hide();
                             }
+
                         } catch (Exception ee) {
                             Toast.makeText(MainActivity.this, ee.toString(), Toast.LENGTH_SHORT).show();
                             progressDialog.hide();
                         }
+
                         if (categories == null) {
                             Toast.makeText(MainActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -247,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 },
+
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
@@ -378,8 +384,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bFilter = (Button) findViewById(R.id.bFilter);
         bFilter.setOnClickListener(this);
         clMain = (ConstraintLayout) findViewById(R.id.clMain);
-
-
     }
 
     @Override
@@ -540,6 +544,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("api_secret", apiSecretKey);
+
+                Log.e("params_fetchSearchedAdds" , params.toString());
 
                 return params;
             }
@@ -767,8 +773,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case R.id.bAdults:
                     //block adults category for saudi arabia
-                    if (GlobalClass.userCountryID.equals("191")) {
-                        Toast.makeText(this, "Not Allowed", Toast.LENGTH_SHORT).show();
+
+                    new MaterialDialog.Builder(this)
+                            .title("warning")
+                            .content("Disclaimer\n" +
+                                    "This section may contain adult material, sexual content, including pictorial nudity and adult language. 1andOnly is not responsible for any material posted on this site; it is the responsibility of the user to ensure no unauthorized material is submitted. The section of 1and only site is to be accessed only by persons who are 18 years of age or older (and is not considered to be a minor in his/her state of residence) and who live in a community or local jurisdiction where nude pictures and explicit adult materials are prohibited by law. By accessing this website, you are representing to us that you meet the above qualifications. A false representation may be a criminal offense.\n" +
+                                    "I confirm and represent that I am 18 years of age or older (and am not considered to be a minor in my state of residence) and that I am not located in a community or local jurisdiction where nude pictures or explicit adult materials are prohibited by any law. I agree to report any illegal services or activities which violate the Terms of Use. I also agree to report suspected exploitation of minors and/or human trafficking to the appropriate authorities.\n" +
+                                    "I have read and agree to this disclaimer as well as the Terms of Use.\n")
+                            .positiveText("Agree")
+                            .negativeText("don't agree")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                        if (GlobalClass.userCountryID.equals("191")) {
+                        Toast.makeText(MainActivity.this, "Not Allowed", Toast.LENGTH_SHORT).show();
                     } else {
                         for (int i = 0; i < categories.size(); i++) {
                             if (categories.get(i).getName().equals("Adults")) {
@@ -776,7 +794,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 GlobalClass.selectedCategory = categories.get(i).getName();
                                 GlobalClass.selectedCategoryID = categories.get(i).getCategory_Id();
                                 if (categories.get(i).getCategorySatus().equals("0")) {
-                                    Toast.makeText(this, "Enable it from dashboard", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this, "Enable it from dashboard", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Intent electronicsIntent = new Intent(MainActivity.this, ChooseSubCategoryActivity.class);
                                     startActivity(electronicsIntent);
@@ -785,7 +803,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                         }
                     }
-                    break;
+                                }
+                            })
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    // do nothing , dont open adults page
+                                }
+                            })
+                            .show();
+                break;
                 case R.id.bFood:
                     for (int i = 0; i < categories.size(); i++) {
                         if (categories.get(i).getName().equals("What's On")) {

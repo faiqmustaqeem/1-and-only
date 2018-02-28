@@ -59,7 +59,8 @@ public class RVAdapterMyInactiveAds extends RecyclerView.Adapter<RVAdapterMyInac
         TextView t;
         ImageView ivAdPic, ivOptions;
 
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view)
+        {
             super(view);
             txtName = (TextView) view.findViewById(R.id.tvTitle);
             txtDescription = (TextView) view.findViewById(R.id.tvDescription);

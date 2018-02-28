@@ -153,7 +153,8 @@ public class AdCountriesActivity extends AppCompatActivity implements View.OnCli
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     }
                 }
-        ) {
+        )
+        {
             @Override
             protected Map<String, String> getParams() {
 

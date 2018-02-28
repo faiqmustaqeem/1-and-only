@@ -180,7 +180,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
         rvAdImages = (RecyclerViewPager) findViewById(R.id.rvAdImages);
 
 //        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         adImagesAdapter = new RVAdapterAdImages(AdDetailsActivity.this, adImagesList);
         rvAdImages.setLayoutManager(mLayoutManager);
@@ -210,11 +210,13 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
                 i.putExtra(Intent.EXTRA_EMAIL, new String[]{GlobalClass.selectedPropertyEmail});
                 i.putExtra(Intent.EXTRA_SUBJECT, "");
                 i.putExtra(Intent.EXTRA_TEXT, "");
+
                 try {
                     startActivity(Intent.createChooser(i, "Send mail..."));
                 } catch (android.content.ActivityNotFoundException ex) {
                     Toast.makeText(AdDetailsActivity.this, "There are no email clients installed", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
             case R.id.bCall:
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -228,6 +230,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
                 }
+
                 startActivity(callIntent);
 
                 break;

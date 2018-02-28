@@ -540,7 +540,7 @@ android:layout_gravity="end"                        />
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="4dp">
+                  >
 
                     <TextView
                         android:id="@+id/tvDescription1"
@@ -605,6 +605,16 @@ android:layout_gravity="end"                        />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
+            <TextView
+                android:id="@+id/reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="reset"
+                android:clickable="true"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView9"/>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cvAttributes"
@@ -668,6 +678,9 @@ android:layout_gravity="end"                        />
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rgAddPostType" />
 
+
+
+
             <RadioGroup
                 android:id="@+id/rgAddPostType"
                 android:layout_width="0dp"
@@ -677,7 +690,7 @@ android:layout_gravity="end"                        />
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/ivGallery2"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView9"
+                app:layout_constraintTop_toBottomOf="@+id/reset"
                 tools:layout_editor_absoluteY="891dp">
 
                 <RadioButton

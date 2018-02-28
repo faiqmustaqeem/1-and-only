@@ -27,6 +27,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -85,6 +86,7 @@ import static com.codiansoft.oneandonly.MainActivity.categories;
 
 public class AddItemActivity extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 11;
+
 //    private static AdapterView spCategory;
 
     static int activeDays = 7;
@@ -131,6 +133,7 @@ public class AddItemActivity extends AppCompatActivity {
     TextView tvDes3;
     TextView tvDes4;
     TextView char_count;
+    TextView reset;
 
     static String locLat;
     static String locLog;
@@ -349,6 +352,7 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View view) {
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                 try {
+                    Log.e("location","location");
                     startActivityForResult(builder.build(AddItemActivity.this), 3);
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
@@ -460,6 +464,20 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                etTitle.setText("");
+                etDescription.setText("");
+                etPrice.setText("");
+                etDes1.setText("");
+                etDes2.setText("");
+                etDes3.setText("");
+                etDes4.setText("");
             }
         });
     }
@@ -1395,6 +1413,8 @@ public class AddItemActivity extends AppCompatActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         spActiveDays.setAdapter(spinnerArrayAdapter);
 
+        reset=(TextView) findViewById(R.id.reset);
+
 /*        //Initialize countries list
         Locale[] locale = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
@@ -1657,6 +1677,7 @@ public class AddItemActivity extends AppCompatActivity {
                 (int) (imageHeight * scale));
         return photoBitmap;
     }
+
 
     public static Bitmap decodeSampledBitmapFromResource(Context context, Uri uri, int reqWidth, int reqHeight) {
 

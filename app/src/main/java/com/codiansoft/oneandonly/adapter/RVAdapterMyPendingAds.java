@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.codiansoft.oneandonly.AdDetailsActivity;
 import com.codiansoft.oneandonly.GlobalClass;
 import com.codiansoft.oneandonly.R;
 import com.codiansoft.oneandonly.model.MyAdsModel;
+import com.daimajia.swipe.SwipeLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,6 +57,7 @@ public class RVAdapterMyPendingAds extends RecyclerView.Adapter<RVAdapterMyPendi
         TextView txtID;
         TextView t;
         ImageView ivAdPic, ivOptions;
+       // SwipeLayout swipe;
 
         public MyViewHolder(View view) {
             super(view);
@@ -67,17 +70,25 @@ public class RVAdapterMyPendingAds extends RecyclerView.Adapter<RVAdapterMyPendi
             t = (TextView) view.findViewById(R.id.position);
             ivAdPic = (ImageView) view.findViewById(R.id.ivAdImage);
             ivOptions = (ImageView) view.findViewById(R.id.ivOptions);
+          //  swipe=(SwipeLayout) view.findViewById(R.id.swipe);
 
 
             ivOptions.setOnClickListener(this);
             ivAdPic.setOnClickListener(this);
             txtDescription.setOnClickListener(this);
             txtName.setOnClickListener(this);
+           // itemView.setOnClickListener(this);
+
+          //  swipe.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            switch (view.getId()) {
+
+
+            switch (view.getId())
+            {
+
                 case R.id.ivOptions:
                     //Creating the instance of PopupMenu
                     PopupMenu popup = new PopupMenu(c, ivOptions);
@@ -111,6 +122,7 @@ public class RVAdapterMyPendingAds extends RecyclerView.Adapter<RVAdapterMyPendi
 
                                     fetchDescriptionHeadings();
                                     break;
+
 
                                 case R.id.my_ad_delete:
                                     new android.support.v7.app.AlertDialog.Builder(c)
@@ -318,7 +330,7 @@ public class RVAdapterMyPendingAds extends RecyclerView.Adapter<RVAdapterMyPendi
     }
 
     @Override
-    public void onBindViewHolder(RVAdapterMyPendingAds.MyViewHolder holder, int position) {
+    public void onBindViewHolder(RVAdapterMyPendingAds.MyViewHolder holder, final int position) {
         MyAdsModel dataModel = dataModels.get(position);
 
         holder.txtName.setText(dataModel.getName());
@@ -333,6 +345,7 @@ public class RVAdapterMyPendingAds extends RecyclerView.Adapter<RVAdapterMyPendi
         } catch (IndexOutOfBoundsException e){
 
         }
+
     }
 
     @Override

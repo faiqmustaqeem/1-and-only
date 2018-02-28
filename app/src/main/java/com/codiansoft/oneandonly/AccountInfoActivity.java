@@ -142,7 +142,7 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
     }
 
     private boolean validInputs() {
-        boolean check = false;
+        boolean check = true;
         if (etUsername.getText().toString().equals("")) {
             etUsername.setError("This field is required");
             check = false;
@@ -289,6 +289,7 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
 
 
     private void initUI() {
+
         imageBase64 = "";
         etUsername = (EditText) findViewById(R.id.etUsername);
         etEmail = (EditText) findViewById(R.id.etEmail);
@@ -612,6 +613,7 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                 String contactNum1 = settings.getString("contactNum1", "");
                 String contactNum2 = settings.getString("contactNum2", "");
 
+
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("country_id", countryID);
 
@@ -695,7 +697,8 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                         finish();
                     }
                 }
-        ) {
+        )
+        {
             @Override
             protected Map<String, String> getParams() {
 

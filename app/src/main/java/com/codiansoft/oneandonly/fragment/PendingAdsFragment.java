@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -98,6 +99,7 @@ public class PendingAdsFragment extends Fragment {
                                         }
                                     }
                                 }
+                                Collections.reverse(dataModels);
                                 mAdapter = new RVAdapterMyPendingAds(getActivity(), dataModels);
 
                                 rvActiveAds.setAdapter(mAdapter);
@@ -151,6 +153,7 @@ public class PendingAdsFragment extends Fragment {
                 String contactNum2 = settings.getString("contactNum2", "");
 
                 Map<String, String> params = new HashMap<String, String>();
+
                 params.put("api_secret", apiSecretKey);
 
                 return params;

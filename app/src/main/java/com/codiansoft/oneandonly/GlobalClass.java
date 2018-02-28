@@ -10,24 +10,24 @@ import java.util.ArrayList;
 
 public class GlobalClass {
     public static final String EDIT_MY_AD = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/edit_ad";
-    public static final String REPORT_AD_URL = "http://codiansoft.com:80/salal/OneAndOnly/index.php/Api/spamReport";
-    public static String APPLICATION_URL = "http://codiansoft.com:80/salal/OneAndOnly/index.php/api";
+    public static final String REPORT_AD_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/spamReport";
+    public static String APPLICATION_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/api";
     public static String REGISTER_URL = APPLICATION_URL + "/user/register";
     public static String LOGIN_URL = APPLICATION_URL + "/user/login";
     public static String CATEGORIES_URL = APPLICATION_URL + "/user/categories";
-    public static String CATEGORIES_STATUS_URL = "http://codiansoft.com:80/salal/OneAndOnly/index.php/Api/category_switch";
+    public static String CATEGORIES_STATUS_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/category_switch";
     public static String UPLOAD_AD_URL = APPLICATION_URL + "/user/addPost";
     public static String FETCH_ALL_ADDS_URL = APPLICATION_URL + "/user/fetchAds";
     public static String UPLOAD_AD_IMAGE_URL = APPLICATION_URL + "/user/base64";
-    public static String FETCH_PROFILE_URL = "http://codiansoft.com:80/salal/OneAndOnly/index.php/Api/fetchProfile";
-    public static String UPDATE_PROFILE_URL = "http://codiansoft.com:80/salal/OneAndOnly/index.php/Api/updateProfile";
+    public static String FETCH_PROFILE_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/fetchProfile";
+    public static String UPDATE_PROFILE_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/updateProfile";
     public static String FETCH_COUNTRIES_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/fetchCountries";
     public static String FETCH_STATES_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/fetchStates";
     public static String FETCH_CITIES_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/fetchCities";
     public static String FETCH_MY_ADS_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/fetchUserAds";
     public static String MY_AD_STATUS_CHANGE_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/change_status";
-    public static String AD_ACTIVE_DAYS_URL = "http://codiansoft.com:80/salal/OneAndOnly/index.php/Api/adInactivateTime";
-    public static String REMOVE_AD_FOR_USER_URL = "http://codiansoft.com:80/salal/OneAndOnly/index.php/Api/adRemove";
+    public static String AD_ACTIVE_DAYS_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/adInactivateTime";
+    public static String REMOVE_AD_FOR_USER_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/adRemove";
 
     public static String selectedCategory;
     public static String selectedSubCategory;

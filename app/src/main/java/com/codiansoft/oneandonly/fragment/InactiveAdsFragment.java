@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,6 +100,7 @@ public class InactiveAdsFragment extends Fragment {
                                         }
                                     }
                                 }
+                                Collections.reverse(dataModels);
                                 mAdapter = new RVAdapterMyInactiveAds(getActivity(), dataModels);
 
                                 rvActiveAds.setAdapter(mAdapter);

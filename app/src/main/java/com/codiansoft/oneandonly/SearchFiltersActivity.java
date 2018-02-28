@@ -135,7 +135,6 @@ public class SearchFiltersActivity extends AppCompatActivity {
                             } else {
                                 finish();
                             }
-
                         } catch (Exception ee) {
                             Toast.makeText(SearchFiltersActivity.this, "error: " + ee.toString(), Toast.LENGTH_SHORT).show();
                             finish();
