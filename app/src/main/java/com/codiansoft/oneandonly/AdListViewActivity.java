@@ -206,7 +206,7 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
                                         ArrayList<String> adImages = new ArrayList<String>();
                                         JSONArray adImagesArr = adObj.getJSONArray("images");
 
-                                        if (adObj.getString("active").equals("a")) {
+                                        if (adObj.getString("active").equals("0")) {
 
                                             for (int j = 0; j < adImagesArr.length(); j++) {
                                                 adImages.add(adImagesArr.getJSONObject(j).getString("path"));

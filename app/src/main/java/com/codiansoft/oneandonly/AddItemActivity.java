@@ -892,7 +892,8 @@ public class AddItemActivity extends AppCompatActivity {
                     params.put("city_id", settings.getString("city", ""));
                     params.put("ad_type", "2");
 
-                } else {
+                }
+                else {
                     GlobalClass.selectedAddPostCityID = GlobalClass.selectedAddPostCityID.substring(0, GlobalClass.selectedAddPostCityID.length() - 1);
                     if (GlobalClass.isSelectAllStates) {
                         GlobalClass.selectedAddPostStateID = GlobalClass.selectedAddPostStateID.substring(0, GlobalClass.selectedAddPostStateID.length() - 1);
@@ -901,7 +902,6 @@ public class AddItemActivity extends AppCompatActivity {
                     params.put("country_id", GlobalClass.selectedAddPostCountryID);
                     params.put("state_id", GlobalClass.selectedAddPostStateID);
                     params.put("city_id", GlobalClass.selectedAddPostCityID);
-
                     params.put("ad_type", "1");
                 }
 
@@ -1020,6 +1020,8 @@ public class AddItemActivity extends AppCompatActivity {
                 params.put("ad_id", GlobalClass.uploadingAdID);
                 String image = getPicture(adImagePosition);
                 params.put("image", image);
+
+                Log.e("image_upload_params",params.toString());
 
                 return params;
             }

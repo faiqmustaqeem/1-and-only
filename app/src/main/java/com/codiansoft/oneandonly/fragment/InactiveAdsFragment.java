@@ -88,7 +88,7 @@ public class InactiveAdsFragment extends Fragment {
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject adObj = data.getJSONObject(i);
                                     if (adObj.getString("user_id").equals(userID)) {
-                                        if (adObj.getString("active").equals("i")) {
+                                        if (adObj.getString("active").equals("1")) {
                                             ArrayList<String> adImages = new ArrayList<String>();
                                             JSONArray adImagesArr = adObj.getJSONArray("images");
 
