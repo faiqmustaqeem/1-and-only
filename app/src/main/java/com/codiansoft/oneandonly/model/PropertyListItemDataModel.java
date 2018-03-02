@@ -28,10 +28,12 @@ public class PropertyListItemDataModel {
     String des2;
     String des3;
     String des4;
+    private String reference_id;
+    private String otherAddsCount;
     ArrayList<String> adImages = new ArrayList<String>();
 
     public PropertyListItemDataModel(String name, String category, String city, String lastUpdateTime, String ID, String details, String contact1,
-                                     String contact2, String email, String imageURL, String latitude, String longitude, String price, String currencyCode, String countryName, String stateName, String cityName, ArrayList<String> adImages, String des1, String des2, String des3, String des4) {
+                                     String contact2, String email, String imageURL, String latitude, String longitude, String price, String currencyCode, String countryName, String stateName, String cityName, ArrayList<String> adImages, String des1, String des2, String des3, String des4, String refernce_id ) {
         this.name=name;
         this.category=category;
         this.city=city;
@@ -54,6 +56,7 @@ public class PropertyListItemDataModel {
         this.des2=des2;
         this.des3=des3;
         this.des4=des4;
+        this.setReference_id(refernce_id);
     }
 
     public String getName() {
@@ -131,5 +134,21 @@ public class PropertyListItemDataModel {
 
     public String getDes4() {
         return des4;
+    }
+
+    public String getOtherAddsCount() {
+        return otherAddsCount;
+    }
+
+    public void setOtherAddsCount(String otherAddsCount) {
+        this.otherAddsCount = otherAddsCount;
+    }
+
+    public String getReference_id() {
+        return reference_id;
+    }
+
+    public void setReference_id(String reference_id) {
+        this.reference_id = reference_id;
     }
 }

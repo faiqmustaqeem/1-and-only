@@ -351,10 +351,17 @@ public class RVAdapterMyActiveAds extends RecyclerView.Adapter<RVAdapterMyActive
 //        Glide.with(mContext).load(dataModel.getImageURL()).into(viewHolder.ivAdPic);
         try {
 
-            Glide.with(c).load(dataModel.getAdImages().get(0)).into(holder.ivAdPic);
+            Glide.with(c).
+                    load(dataModel.getAdImages().get(0))
+                    .placeholder(R.drawable.sample_property_pic2)
+                    .error(R.drawable.sample_property_pic2)
+                    .into(holder.ivAdPic);
 
         } catch (IndexOutOfBoundsException e) {
 
+            Glide.with(c).
+                    load(R.drawable.sample_property_pic2)
+                    .into(holder.ivAdPic);
         }
     }
 

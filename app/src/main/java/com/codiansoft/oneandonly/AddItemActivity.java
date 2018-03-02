@@ -927,6 +927,8 @@ public class AddItemActivity extends AppCompatActivity {
 
                 params.put("expiry_days", activeDays + "");
 
+                Log.e("params", params.toString());
+
                 return params;
             }
         };

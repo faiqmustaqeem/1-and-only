@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,104 +7,121 @@
     tools:context="com.codiansoft.oneandonly.AdDetailsActivity">
 
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_above="@id/linearLayout2">
 
-        <android.support.constraint.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:weightSum="2"
                     android:orientation="vertical"
                     android:padding="4dp">
 
-                    <TextView
-                        android:id="@+id/tvCityName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="City Name"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvPropertyName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Property Name"
-                        android:textColor="@color/grey"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
                     <LinearLayout
-                        android:id="@+id/linearLayout10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="0dp"
-                        android:background="@color/colorPrimary"
-                        android:orientation="horizontal"
-                        android:padding="4dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvCurrencyCode"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="USD"
-                            android:textColor="@android:color/white"
-                            android:textSize="10sp" />
+                            android:id="@+id/tvPropertyName"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Property Name"
+                            android:textColor="@color/grey"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tvPrice"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="2dp"
-                            android:gravity="center"
-                            android:text="500000000"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp" />
+                        <LinearLayout
+                            android:id="@+id/linearLayout10"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="0dp"
+                            android:background="@color/colorPrimary"
+                            android:orientation="horizontal"
+                            android:padding="4dp">
+
+                            <TextView
+                                android:id="@+id/tvCurrencyCode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="USD"
+                                android:textColor="@android:color/white"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tvPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:gravity="center"
+                                android:text="500000000"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvCityName"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="City Name"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
             <View
                 android:id="@+id/view"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+                android:layout_below="@id/cardView" />
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
@@ -112,13 +129,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Details"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                android:layout_below="@id/view"/>
 
             <TextView
                 android:id="@+id/tvPropertyDetails"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
@@ -127,24 +142,20 @@
                 android:text="@string/sample_property_details"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                android:layout_below="@id/textView" />
 
 
             <View
                 android:id="@+id/view2"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvPropertyDetails" />
+                android:layout_below="@id/tvPropertyDetails"/>
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
@@ -152,9 +163,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="7dp"
                 android:text="Pictures"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view2" />
+                android:layout_below="@id/view2"/>
 
             <ImageView
                 android:id="@+id/ivPropertyImage"
@@ -162,14 +171,11 @@
                 android:layout_height="0dp"
                 android:background="@drawable/no_preview"
                 android:visibility="gone"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                android:layout_below="@id/textView3"/>
 
             <com.daimajia.slider.library.SliderLayout
                 android:id="@+id/slider"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
@@ -178,10 +184,7 @@
                 android:layout_marginTop="7dp"
                 android:background="@drawable/no_preview"
                 android:visibility="gone"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                android:layout_below="@id/textView3"/>
 
             <!--
                         <android.support.v7.widget.RecyclerView
@@ -204,7 +207,7 @@
 
             <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
                 android:id="@+id/rvAdImages"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginEnd="0dp"
                 android:layout_marginLeft="0dp"
@@ -213,14 +216,11 @@
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
                 android:padding="0dp"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                android:layout_below="@id/textView3" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/clDescriptions"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_marginLeft="0dp"
@@ -228,12 +228,11 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
                 android:text="Des1"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvAdImages"
+                android:layout_below="@id/rvAdImages"
                 >
 
                 <LinearLayout
+                    android:id="@+id/layout_descriptions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -246,7 +245,7 @@
                         android:layout_height="wrap_content"
                         android:text="Des1"
                         android:layout_marginLeft="0dp"
-                         />
+                        />
                     <TextView
                         android:id="@+id/tvDescription1"
                         android:layout_width="match_parent"
@@ -276,7 +275,7 @@
                         android:text="Des1"
                         android:layout_marginLeft="0dp"
                         android:layout_marginTop="8dp"
-                         />
+                        />
                     <TextView
                         android:id="@+id/tvDescription3"
                         android:layout_width="match_parent"
@@ -290,7 +289,7 @@
                         android:text="Des1"
                         android:layout_marginLeft="0dp"
                         android:layout_marginTop="8dp"
-                         />
+                        />
                     <TextView
                         android:id="@+id/tvDescription4"
                         android:layout_width="match_parent"
@@ -299,98 +298,166 @@
                         android:text="Description 1"/>
 
                 </LinearLayout>
-                </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Contact Details"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clDescriptions" />
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/clDescriptions"
+                android:orientation="vertical"
+                >
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:text="Contact Number 1:"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:text="Contact Number 2:"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:text="Email:"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-            <TextView
-                android:id="@+id/tvContact1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:text="03001234567"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintLeft_toRightOf="@+id/textView4"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-            <TextView
-                android:id="@+id/tvContact2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:text="03112345678"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintLeft_toRightOf="@+id/textView4"
-                app:layout_constraintTop_toBottomOf="@+id/tvContact1" />
-
-            <TextView
-                android:id="@+id/tvEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:text="xyz@abc.com"
-                android:textColor="@android:color/holo_blue_dark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textView4"
-                app:layout_constraintTop_toBottomOf="@+id/tvContact2" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Contact Details"
+                        />
 
 
-        </android.support.constraint.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="Contact Number 1:"
+                        android:textColor="@color/colorPrimary" />
+
+
+                    <TextView
+                        android:id="@+id/tvContact1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="03001234567"
+                        android:textColor="@color/colorPrimary" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Contact Number 2:"
+                        android:textColor="@color/colorPrimary" />
+
+
+
+                    <TextView
+                        android:id="@+id/tvContact2"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="03112345678"
+                        android:textColor="@color/colorPrimary" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/text_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Email:"
+                        android:textColor="@color/colorPrimary"/>
+
+
+                    <TextView
+                        android:id="@+id/tvEmail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="xyz@abc.com"
+                        android:textColor="@android:color/holo_blue_dark" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/refernce_number"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text=""/>
+
+            </LinearLayout>
+
+
+
+
+
+
+
+        </RelativeLayout>
 
     </ScrollView>
 
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="377dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -399,9 +466,8 @@
         android:layout_marginStart="8dp"
         android:background="@drawable/property_details_bottom_bar"
         android:weightSum="10"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        android:layout_alignParentBottom="true"
+        >
 
         <Button
             android:id="@+id/bBack"
@@ -439,6 +505,4 @@
             android:background="@android:color/transparent" />
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
-
-
+</RelativeLayout>

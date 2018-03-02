@@ -227,8 +227,17 @@ public class ListViewAdapter extends BaseSwipeAdapter {
         viewHolder.txtID.setText(dataModel.getID());
 //        Glide.with(mContext).load(dataModel.getImageURL()).into(viewHolder.ivAdPic);
         try {
-            Glide.with(mContext).load(dataModel.getAdImages().get(0)).into(viewHolder.ivAdPic);
+            Glide.with(mContext)
+                    .load(dataModel.getAdImages().get(0))
+                    .placeholder(R.drawable.sample_property_pic2)
+                    .error(R.drawable.sample_property_pic2)
+                    .into(viewHolder.ivAdPic);
+
+
         }catch (IndexOutOfBoundsException i){
+            Glide.with(mContext)
+                    .load(R.drawable.sample_property_pic2)
+                    .into(viewHolder.ivAdPic);
 
         }
 

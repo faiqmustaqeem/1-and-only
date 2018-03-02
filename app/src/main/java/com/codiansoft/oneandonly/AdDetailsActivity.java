@@ -25,6 +25,8 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +60,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
     RecyclerViewPager rvAdImages;
     RVAdapterAdImages adImagesAdapter;
     AdImagesModel adImagesModel;
+    TextView refernce_number;
 
     private List<String> adImagesList = new ArrayList<>();
 
@@ -135,6 +138,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
         tvDescription3Heading = (TextView) findViewById(R.id.tvDescription3Heading);
         tvDescription4 = (TextView) findViewById(R.id.tvDescription4);
         tvDescription4Heading = (TextView) findViewById(R.id.tvDescription4Heading);
+        refernce_number=(TextView)findViewById(R.id.refernce_number);
 
         tvDescription1Heading.setText(GlobalClass.selectedSubCatDes1Title);
         tvDescription2Heading.setText(GlobalClass.selectedSubCatDes2Title);
@@ -176,6 +180,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
         tvEmail.setText(GlobalClass.selectedPropertyEmail);
         tvContact1.setText(GlobalClass.selectedPropertyContact1);
         tvContact2.setText(GlobalClass.selectedPropertyContact2);
+        refernce_number.setText(GlobalClass.selectedPropertyRefernceNumber);
 
         rvAdImages = (RecyclerViewPager) findViewById(R.id.rvAdImages);
 

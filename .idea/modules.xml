@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/1-and-only.iml" filepath="$PROJECT_DIR$/1-and-only.iml" />
-      <module fileurl="file://C:\faiq\1-and-only\1-and-only.iml" filepath="C:\faiq\1-and-only\1-and-only.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\faiq\1-and-only\app\app.iml" filepath="C:\faiq\1-and-only\app\app.iml" />
     </modules>
   </component>
 </project>

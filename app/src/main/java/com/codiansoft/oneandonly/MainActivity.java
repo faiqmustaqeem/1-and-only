@@ -3,13 +3,17 @@ package com.codiansoft.oneandonly;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
@@ -474,7 +478,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             adImages.add(adImagesArr.getJSONObject(j).getString("path"));
                                         }
                                         ArrayList<String> adImagesTemp = adImages;
-                                        dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "https://cdn.houseplans.com/product/o2d2ui14afb1sov3cnslpummre/w560x373.jpg?v=15", adObj.getString("ad_latitude"), adObj.getString("ad_longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4")));
+                                        dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "https://cdn.houseplans.com/product/o2d2ui14afb1sov3cnslpummre/w560x373.jpg?v=15", adObj.getString("ad_latitude"), adObj.getString("ad_longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4"),""));
                                     }
                                     else
                                     {
@@ -545,7 +549,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("api_secret", apiSecretKey);
 
-                Log.e("params_fetchSearchedAdds" , params.toString());
+                Log.e("params" , params.toString());
 
                 return params;
             }
@@ -609,7 +613,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             DeletePeriodDialog deletePeriodDialog = new DeletePeriodDialog(this);
             deletePeriodDialog.show();
 
-        }*/ else if (id == R.id.nav_logout) {
+        }*/
+        else if (id == R.id.nav_share_app) {
+            onClickWhatsApp();
+        }
+        else if (id == R.id.nav_logout) {
 
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("Are you sure to log out?")
@@ -654,6 +662,91 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    public ArrayList<String> getWhatsappContacts()
+    {
+        ContentResolver cr = getContentResolver();
+
+//RowContacts for filter Account Types
+        Cursor contactCursor = cr.query(
+                ContactsContract.RawContacts.CONTENT_URI,
+                new String[]{ContactsContract.RawContacts._ID,
+                        ContactsContract.RawContacts.CONTACT_ID},
+                ContactsContract.RawContacts.ACCOUNT_TYPE + "= ?",
+                new String[]{"com.whatsapp"},
+                null);
+
+//ArrayList for Store Whatsapp Contact
+        ArrayList<String> myWhatsappContacts = new ArrayList<>();
+
+        if (contactCursor != null) {
+            if (contactCursor.getCount() > 0) {
+                if (contactCursor.moveToFirst()) {
+                    do {
+                        //whatsappContactId for get Number,Name,Id ect... from  ContactsContract.CommonDataKinds.Phone
+                        String whatsappContactId = contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.RawContacts.CONTACT_ID));
+
+                        if (whatsappContactId != null) {
+                            //Get Data from ContactsContract.CommonDataKinds.Phone of Specific CONTACT_ID
+                            Cursor whatsAppContactCursor = cr.query(
+                                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                    new String[]{ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+                                            ContactsContract.CommonDataKinds.Phone.NUMBER,
+                                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME},
+                                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                                    new String[]{whatsappContactId}, null);
+
+                            if (whatsAppContactCursor != null) {
+                                whatsAppContactCursor.moveToFirst();
+                                String id = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
+                                String name = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                                String number = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                                whatsAppContactCursor.close();
+
+                                //Add Number to ArrayList
+                                myWhatsappContacts.add(number);
+
+                             //   showLogI(TAG, " WhatsApp contact id  :  " + id);
+                              //  showLogI(TAG, " WhatsApp contact name :  " + name);
+                                //showLogI(TAG, " WhatsApp contact number :  " + number);
+                                Log.e("name" , name);
+                                Log.e("number" ,number);
+                            }
+                        }
+                    } while (contactCursor.moveToNext());
+                    contactCursor.close();
+                }
+            }
+        }
+
+       // showLogI(TAG, " WhatsApp contact size :  " + myWhatsappContacts.size());
+
+        return myWhatsappContacts;
+    }
+    public void onClickWhatsApp() {
+//        getWhatsappContacts();
+
+        PackageManager pm=getPackageManager();
+        try {
+
+            Intent waIntent = new Intent(Intent.ACTION_SEND);
+            waIntent.setType("text/plain");
+            String text = "hey , download this app from playstore .";
+
+            PackageInfo info=pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
+            //Check if package exists or not. If not then code
+            //in catch block will be called
+            waIntent.setPackage("com.whatsapp");
+
+            waIntent.putExtra(Intent.EXTRA_TEXT, text);
+            startActivity(Intent.createChooser(waIntent, "Share with"));
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+    }
     @Override
     public void onClick(View view) {
 
@@ -992,7 +1085,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             adImages.add(adImagesArr.getJSONObject(j).getString("path"));
                                         }
                                         ArrayList<String> adImagesTemp = adImages;
-                                        dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "https://cdn.houseplans.com/product/o2d2ui14afb1sov3cnslpummre/w560x373.jpg?v=15", adObj.getString("ad_latitude"), adObj.getString("ad_longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4")));
+                                        dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "https://cdn.houseplans.com/product/o2d2ui14afb1sov3cnslpummre/w560x373.jpg?v=15", adObj.getString("ad_latitude"), adObj.getString("ad_longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4"),""));
                                     }
                                 }
                                 progressDialog.dismiss();
