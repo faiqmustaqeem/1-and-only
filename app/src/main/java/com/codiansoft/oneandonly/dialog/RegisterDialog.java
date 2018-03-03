@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -16,6 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -266,9 +269,23 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
                                 editor.putString("city", newUserCity);
                                 editor.commit();
 
-                                Intent i = new Intent(act, MainActivity.class);
-                                act.startActivity(i);
-                                act.finish();
+
+
+                                new MaterialDialog.Builder(act)
+                                        .title("Note")
+                                        .content("You all adds will be free for one year from now , after 1 year you will be charger for adds !")
+                                        .positiveText("OK")
+                                        .canceledOnTouchOutside(false)
+                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                                                Intent i = new Intent(act, MainActivity.class);
+                                                act.startActivity(i);
+                                                act.finish();
+                                            }
+                                        })
+                                        .show();
 
                             } else if (result.get("status").equals("error")) {
                                 Toast.makeText(act, "Unexpected Connection Error", Toast.LENGTH_SHORT).show();

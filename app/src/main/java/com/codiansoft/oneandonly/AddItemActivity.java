@@ -1281,7 +1281,8 @@ public class AddItemActivity extends AppCompatActivity {
         }
     }
 
-    private String loadCurrencyCodeJSONFromAsset() {
+    private String loadCurrencyCodeJSONFromAsset()
+    {
         String json = null;
         try {
             InputStream is = getResources().openRawResource(R.raw.country_code_to_currency_code);

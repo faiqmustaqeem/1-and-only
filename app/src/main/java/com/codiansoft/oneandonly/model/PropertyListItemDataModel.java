@@ -33,7 +33,7 @@ public class PropertyListItemDataModel {
     ArrayList<String> adImages = new ArrayList<String>();
 
     public PropertyListItemDataModel(String name, String category, String city, String lastUpdateTime, String ID, String details, String contact1,
-                                     String contact2, String email, String imageURL, String latitude, String longitude, String price, String currencyCode, String countryName, String stateName, String cityName, ArrayList<String> adImages, String des1, String des2, String des3, String des4, String refernce_id ) {
+                                     String contact2, String email, String imageURL, String latitude, String longitude, String price, String currencyCode, String countryName, String stateName, String cityName, ArrayList<String> adImages, String des1, String des2, String des3, String des4, String refernce_id , String otherAddsCount ) {
         this.name=name;
         this.category=category;
         this.city=city;
@@ -57,6 +57,7 @@ public class PropertyListItemDataModel {
         this.des3=des3;
         this.des4=des4;
         this.setReference_id(refernce_id);
+        this.otherAddsCount=otherAddsCount;
     }
 
     public String getName() {

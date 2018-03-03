@@ -81,6 +81,7 @@ public class GlobalClass {
     public static String selectedPropertyLatitude;
     public static String selectedPropertyLongitude;
     public static String selectedPropertyRefernceNumber;
+    public static String otherAddsCount;
 
     public static String uploadingAdID;
     public static String selectedAddPostType;

@@ -61,6 +61,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
     RVAdapterAdImages adImagesAdapter;
     AdImagesModel adImagesModel;
     TextView refernce_number;
+    TextView otherAddsCount;
 
     private List<String> adImagesList = new ArrayList<>();
 
@@ -139,6 +140,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
         tvDescription4 = (TextView) findViewById(R.id.tvDescription4);
         tvDescription4Heading = (TextView) findViewById(R.id.tvDescription4Heading);
         refernce_number=(TextView)findViewById(R.id.refernce_number);
+        otherAddsCount=(TextView)findViewById(R.id.otherAddsCount);
 
         tvDescription1Heading.setText(GlobalClass.selectedSubCatDes1Title);
         tvDescription2Heading.setText(GlobalClass.selectedSubCatDes2Title);
@@ -181,6 +183,16 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
         tvContact1.setText(GlobalClass.selectedPropertyContact1);
         tvContact2.setText(GlobalClass.selectedPropertyContact2);
         refernce_number.setText(GlobalClass.selectedPropertyRefernceNumber);
+
+        int int_otherAdds=Integer.parseInt(GlobalClass.otherAddsCount)-1;
+        if(int_otherAdds==0)
+        {
+            otherAddsCount.setText("this person hos no other Ad");
+        }
+        else
+        {
+            otherAddsCount.setText("this person has "+int_otherAdds+" other Ads");
+        }
 
         rvAdImages = (RecyclerViewPager) findViewById(R.id.rvAdImages);
 

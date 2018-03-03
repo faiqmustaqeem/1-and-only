@@ -105,6 +105,7 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
                 GlobalClass.selectedPropertyLatitude = selectedItemDataModel.getLatitude();
                 GlobalClass.selectedPropertyLongitude = selectedItemDataModel.getLongitude();
                 GlobalClass.selectedPropertyRefernceNumber=selectedItemDataModel.getReference_id();
+                GlobalClass.otherAddsCount=selectedItemDataModel.getOtherAddsCount();
 
                 isMyAd = false;
 
@@ -214,7 +215,7 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
                                             }
                                             ArrayList<String> adImagesTemp = adImages;
 
-                                            dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "", adObj.getString("latitude"), adObj.getString("longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4"),adObj.getString("reference_id")));
+                                            dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "", adObj.getString("latitude"), adObj.getString("longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4"),adObj.getString("reference_id"), adObj.getString("count_ads")));
                                         }
                                     }
                                 }
