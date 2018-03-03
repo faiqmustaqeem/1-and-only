@@ -36,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ListView mListView;
     private Button bFilter;
 
-    ConstraintLayout clMain;
+    RelativeLayout clMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -387,7 +388,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mListView = (ListView) findViewById(R.id.lvSearchedAds);
         bFilter = (Button) findViewById(R.id.bFilter);
         bFilter.setOnClickListener(this);
-        clMain = (ConstraintLayout) findViewById(R.id.clMain);
+
+        clMain = (RelativeLayout) findViewById(R.id.clMain);
     }
 
     @Override
