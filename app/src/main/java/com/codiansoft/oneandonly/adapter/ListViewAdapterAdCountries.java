@@ -3,6 +3,7 @@ package com.codiansoft.oneandonly.adapter;
 import android.content.Context;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,14 @@ import android.widget.Toast;
 
 import com.codiansoft.oneandonly.AdCountriesActivity;
 import com.codiansoft.oneandonly.AdStatesActivity;
+import com.codiansoft.oneandonly.AddItemActivity;
 import com.codiansoft.oneandonly.GlobalClass;
 import com.codiansoft.oneandonly.R;
 import com.codiansoft.oneandonly.model.CountriesDataModel;
 import com.kyleduo.switchbutton.SwitchButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -48,6 +53,7 @@ public class ListViewAdapterAdCountries extends BaseAdapter implements Filterabl
         TextView t;
         ImageView ivFlag;
         SwitchButton sbOnOff;
+        SwitchButton sbAll;
     }
 
     public ListViewAdapterAdCountries(Context mContext) {
@@ -90,6 +96,7 @@ public class ListViewAdapterAdCountries extends BaseAdapter implements Filterabl
         viewHolder.ivFlag = (ImageView) view.findViewById(R.id.ivFlag);
         viewHolder.sbOnOff = (SwitchButton) view.findViewById(R.id.sbOnOrOff);
         viewHolder.sbOnOff.setVisibility(View.VISIBLE);
+        //viewHolder.sbAll=(SwitchButton)view.findViewById(R.id.sbAll);
 
         view.setTag(viewHolder);
 
@@ -162,6 +169,7 @@ public class ListViewAdapterAdCountries extends BaseAdapter implements Filterabl
             });
         }
 */
+
 
         return view;
     }

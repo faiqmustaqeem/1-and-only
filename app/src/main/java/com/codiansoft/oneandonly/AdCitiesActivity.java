@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -239,7 +242,27 @@ public class AdCitiesActivity extends AppCompatActivity implements View.OnClickL
                     AdCountriesActivity.adCountriesActivity.finish();
                     finish();*/
                     progressBar.setVisibility(View.VISIBLE);
-                    uploadAd(addItemAct);
+                    new MaterialDialog.Builder(this)
+                            .title("Select anotner country")
+                            .content("do you want to select another country ?")
+                            .positiveText("Yes")
+                            .negativeText("No")
+                            .canceledOnTouchOutside(false)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    Intent intent=new Intent(mContext,AdCountriesActivity.class);
+                                    startActivity(intent);
+                                }
+                            })
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    uploadAd(addItemAct);
+                                }
+                            })
+                            .show();
+
                 } else {
                     Toast.makeText(mContext, "Turn on a city", Toast.LENGTH_SHORT).show();
                 }

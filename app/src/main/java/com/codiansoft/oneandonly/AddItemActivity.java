@@ -92,7 +92,10 @@ public class AddItemActivity extends AppCompatActivity {
     static int activeDays = 7;
 
     public static Activity addItemAct;
+//    public static  JSONObject jsonCountryObject=new JSONObject();
+//    public static  JSONArray jsonArrayCountries=new JSONArray();
 
+    public static List<String> countriesList=new ArrayList<>();
     int backCount;
     int count = 1;
     static Spinner spCountry;
@@ -169,11 +172,13 @@ public class AddItemActivity extends AppCompatActivity {
         addItemAct = this;
 
         getSupportActionBar().setTitle("Submit An Ad");
+
         backCount = 0;
         initUI();
         images.clear();
         fetchProfile();
 
+       // jsonCountryObject.put()
         ivGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -253,6 +258,7 @@ public class AddItemActivity extends AppCompatActivity {
                 // your code here
 //                setStatesInSpinner(countries.get(position).getID(),states.get(position).getID(),"");
                 statesLoadedCount++;
+
                 if (statesLoadedCount > 1) {
 //                    Toast.makeText(AccountInfoActivity.this, "on item selected states", Toast.LENGTH_SHORT).show();
                     setCitiesInSpinner(states.get(position).getID(), "");
@@ -413,8 +419,8 @@ public class AddItemActivity extends AppCompatActivity {
         tvSaveAdLocations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(AddItemActivity.this, AdCountriesActivity.class);
-                startActivity(i);
+              //  Intent i = new Intent(AddItemActivity.this, AdCountriesActivity.class);
+               // startActivity(i);
             }
         });
 
