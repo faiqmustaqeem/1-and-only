@@ -42,6 +42,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -450,8 +451,12 @@ public class AddItemActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(AddItemActivity.this, "No ad locations saved", Toast.LENGTH_SHORT).show();
                         }*/
+
+                       // changing for multiple countries
                         Intent i = new Intent(AddItemActivity.this, AdCountriesActivity.class);
                         startActivity(i);
+
+
                     }
                 }
             }
@@ -489,6 +494,26 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
 
+    public void setCountriesInDialog()
+    {
+        new MaterialDialog.Builder(this)
+                .title("select Country")
+                .items()
+                .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        /**
+                         * If you use alwaysCallMultiChoiceCallback(), which is discussed below,
+                         * returning false here won't allow the newly selected check box to actually be selected
+                         * (or the newly unselected check box to be unchecked).
+                         * See the limited multi choice dialog example in the sample project for details.
+                         **/
+                        return true;
+                    }
+                })
+                .positiveText("Choose")
+                .show();
+    }
     private void fetchProfile() {
         progressBar.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -582,7 +607,7 @@ public class AddItemActivity extends AppCompatActivity {
                             JSONArray countriesArr = new JSONArray(response);
                             for (int i = 0; i < countriesArr.length(); i++) {
                                 JSONObject countryObj = countriesArr.getJSONObject(i);
-                                countries.add(new CountriesDataModel(countryObj.getString("name"), countryObj.getString("sortname").toLowerCase(), "New York", countryObj.getString("last_update"), countryObj.getString("id"), countryObj.getString("ads_num")));
+                                countries.add(new CountriesDataModel(countryObj.getString("name"), countryObj.getString("sortname").toLowerCase(), "", countryObj.getString("last_update"), countryObj.getString("id"), countryObj.getString("ads_num")));
                                 countriesNames.add(countryObj.getString("name"));
                             }
                             countriesAdapter = new ArrayAdapter<String>(AddItemActivity.this, android.R.layout.simple_spinner_item, countriesNames);
@@ -1080,32 +1105,6 @@ public class AddItemActivity extends AppCompatActivity {
         for (int i = 0; i < imagesAdapter.getItemCount(); i++) {
             if (i == position) {
 
-/*                Bitmap itemImage = images.get(i).getImageBitmap();
-                // store bitmap to file
-                File filename = new File(Environment.getExternalStorageDirectory(), "imageName.jpg");
-                FileOutputStream out = null;
-                try {
-                    out = new FileOutputStream(filename);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                itemImage.compress(Bitmap.CompressFormat.JPEG, 60, out);
-                try {
-                    out.flush();
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                // get base64 string from file
-                String base64 = getStringImage(filename);
-            *//*if (i > 0) {
-                picturesArray = picturesArray + ",{\"path\":\"" + base64 + "\",\"detail\":\"" + "" + "\"}";
-            } else {
-                picturesArray = picturesArray + "{\"path\":\"" + base64 + "\",\"detail\":\"" + "" + "\"}";
-            }*//*
-
-
-            */
 
                 Bitmap itemImage = images.get(i).getImageBitmap();
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
