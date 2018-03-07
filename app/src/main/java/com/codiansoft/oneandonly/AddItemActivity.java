@@ -56,6 +56,7 @@ import com.codiansoft.oneandonly.model.AttributeKeysModel;
 import com.codiansoft.oneandonly.model.AttributeValuesModel;
 import com.codiansoft.oneandonly.model.CitiesDataModel;
 import com.codiansoft.oneandonly.model.CountriesDataModel;
+import com.codiansoft.oneandonly.model.CountryModel;
 import com.codiansoft.oneandonly.model.ImagesModel;
 import com.codiansoft.oneandonly.model.StatesDataModel;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -164,6 +165,8 @@ public class AddItemActivity extends AppCompatActivity {
 
     ContentValues values;
     Uri imageUri;
+
+    List<CountryModel> countryModelList=new ArrayList<>();
 
 
     @Override
@@ -494,11 +497,17 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
 
-    public void setCountriesInDialog()
+    public void setCountriesInDialog(List <CountryModel> list)
     {
+        List<String> countryNameList=new ArrayList<>();
+
+        for (int i=0 ; i < list.size() ; i++)
+        {
+            countryNameList.add(list.get(i).getName());
+        }
         new MaterialDialog.Builder(this)
                 .title("select Country")
-                .items()
+                .items(countryNameList)
                 .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
@@ -508,12 +517,82 @@ public class AddItemActivity extends AppCompatActivity {
                          * (or the newly unselected check box to be unchecked).
                          * See the limited multi choice dialog example in the sample project for details.
                          **/
+
+
+
                         return true;
                     }
                 })
                 .positiveText("Choose")
                 .show();
     }
+    private void fetchCountries() {
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, GlobalClass.FETCH_COUNTRIES_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        try {
+                            JSONArray countriesArr = new JSONArray(response);
+                            for (int i = 0; i < countriesArr.length(); i++) {
+                                JSONObject countryObj = countriesArr.getJSONObject(i);
+                                countryModelList.add(new CountryModel(countryObj.getString("name"),countryObj.getString("id")));
+
+                            }
+                            setCountriesInDialog(countryModelList);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (progressBar.isShown()) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null) {
+                            switch (response.statusCode) {
+                                case 409:
+//                                    utilities.dialog("Already Exist", act);
+                                    break;
+                                case 400:
+                                    Toast.makeText(AddItemActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                                default:
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                            }
+                        }
+                        if (progressBar.isShown()) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+
+    }
+
     private void fetchProfile() {
         progressBar.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
