@@ -29,6 +29,7 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -52,12 +53,17 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.codiansoft.oneandonly.adapter.ImagesAdapter;
 import com.codiansoft.oneandonly.adapter.ItemAttributeAdapter;
+import com.codiansoft.oneandonly.dialog.CityDialog;
+import com.codiansoft.oneandonly.dialog.CountryDialog;
+import com.codiansoft.oneandonly.dialog.StateDialog;
 import com.codiansoft.oneandonly.model.AttributeKeysModel;
 import com.codiansoft.oneandonly.model.AttributeValuesModel;
 import com.codiansoft.oneandonly.model.CitiesDataModel;
+import com.codiansoft.oneandonly.model.CityModel;
 import com.codiansoft.oneandonly.model.CountriesDataModel;
 import com.codiansoft.oneandonly.model.CountryModel;
 import com.codiansoft.oneandonly.model.ImagesModel;
+import com.codiansoft.oneandonly.model.StateModel;
 import com.codiansoft.oneandonly.model.StatesDataModel;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -68,6 +74,7 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -167,6 +174,10 @@ public class AddItemActivity extends AppCompatActivity {
     Uri imageUri;
 
     List<CountryModel> countryModelList=new ArrayList<>();
+    int countryIndex=0;
+    int stateIndex=0;
+    List<CountryModel> filteredListCountry;
+    List<StateModel> filteredListState;
 
 
     @Override
@@ -449,16 +460,32 @@ public class AddItemActivity extends AppCompatActivity {
                     if (GlobalClass.selectedAddPostType.equals("default")) {
                         uploadAd(AddItemActivity.this);
                     } else if (GlobalClass.selectedAddPostType.equals("alternate")) {
-                        /*if (savedAdLocations) {
-                            uploadAd();
-                        } else {
-                            Toast.makeText(AddItemActivity.this, "No ad locations saved", Toast.LENGTH_SHORT).show();
-                        }*/
+
 
                        // changing for multiple countries
-                        Intent i = new Intent(AddItemActivity.this, AdCountriesActivity.class);
-                        startActivity(i);
+                      //  Intent i = new Intent(AddItemActivity.this, AdCountriesActivity.class);
+                       // startActivity(i);
+                        final List<CountryModel> countryList=new ArrayList<CountryModel>();
+                        final CountryDialog countryDialog=new CountryDialog(AddItemActivity.this , countryList);
 
+                        countryDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        countryDialog.setCancelable(false);
+                        countryDialog.show();
+
+                        TextView ok=(TextView) countryDialog.findViewById(R.id.ok);
+                        ok.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                filteredListCountry=countryDialog.getFilteredCountries();
+                                if(filteredListCountry.size() > 0)
+                                {
+                                    countryDialog.dismiss();
+                                    showStateDialog();
+                                }
+
+
+                            }
+                        });
 
                     }
                 }
@@ -497,99 +524,79 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
 
-    public void setCountriesInDialog(List <CountryModel> list)
+
+    public void showStateDialog()
     {
-        List<String> countryNameList=new ArrayList<>();
 
-        for (int i=0 ; i < list.size() ; i++)
-        {
-            countryNameList.add(list.get(i).getName());
-        }
-        new MaterialDialog.Builder(this)
-                .title("select Country")
-                .items(countryNameList)
-                .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                        /**
-                         * If you use alwaysCallMultiChoiceCallback(), which is discussed below,
-                         * returning false here won't allow the newly selected check box to actually be selected
-                         * (or the newly unselected check box to be unchecked).
-                         * See the limited multi choice dialog example in the sample project for details.
-                         **/
+            String country_id=filteredListCountry.get(countryIndex).getId();
+            String country_name=filteredListCountry.get(countryIndex).getName();
+            countryIndex++;
+            List<StateModel> stateModelList=new ArrayList<>();
+            final StateDialog stateDialog=new StateDialog(addItemAct,stateModelList,country_id ,country_name );
+            stateDialog.show();
+            TextView ok=(TextView)stateDialog.findViewById(R.id.ok);
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                    if(countryIndex!= filteredListCountry.size())
+                    {
 
-
-                        return true;
+                        filteredListState=stateDialog.getFilteredList();
+                        stateDialog.dismiss();
+                        showCityDialog();
                     }
-                })
-                .positiveText("Choose")
-                .show();
-    }
-    private void fetchCountries() {
-        progressBar.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest postRequest = new StringRequest(Request.Method.POST, GlobalClass.FETCH_COUNTRIES_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // response
-                        try {
-                            JSONArray countriesArr = new JSONArray(response);
-                            for (int i = 0; i < countriesArr.length(); i++) {
-                                JSONObject countryObj = countriesArr.getJSONObject(i);
-                                countryModelList.add(new CountryModel(countryObj.getString("name"),countryObj.getString("id")));
-
-                            }
-                            setCountriesInDialog(countryModelList);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (progressBar.isShown()) {
-                            progressBar.setVisibility(View.GONE);
-                        }
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
+                    else {
+                        stateDialog.dismiss();
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse response = error.networkResponse;
-                        if (response != null && response.data != null) {
-                            switch (response.statusCode) {
-                                case 409:
-//                                    utilities.dialog("Already Exist", act);
-                                    break;
-                                case 400:
-                                    Toast.makeText(AddItemActivity.this, "Try again", Toast.LENGTH_SHORT).show();
-//                                    utilities.dialog("Connection Problem", act);
-                                    break;
-                                default:
-//                                    utilities.dialog("Connection Problem", act);
-                                    break;
-                            }
-                        }
-                        if (progressBar.isShown()) {
-                            progressBar.setVisibility(View.GONE);
-                        }
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    }
+
+
                 }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+            });
 
-                return params;
-            }
-        };
-        queue.add(postRequest);
+
+
+
+
+
+
+    }
+    public void showCityDialog()
+    {
+
+        if(stateIndex!= filteredListState.size())
+        {
+
+            String state_id=filteredListState.get(stateIndex).getId();
+            String state_name=filteredListState.get(stateIndex).getName();
+            Log.e("city" , state_id+" , "+state_name);
+            stateIndex++;
+            List<CityModel> cityModelList=new ArrayList<>();
+
+            final CityDialog cityDialog=new CityDialog(addItemAct,cityModelList,state_id ,state_name );
+            cityDialog.show();
+            TextView ok=(TextView)cityDialog.findViewById(R.id.ok);
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(stateIndex!= filteredListState.size())
+                    {
+                        cityDialog.dismiss();
+                        showCityDialog();
+
+                    }
+                    else {
+                        cityDialog.dismiss();
+                    }
+
+                }
+            });
+        }
+        else if(countryIndex!= filteredListCountry.size())  {
+
+            stateIndex=0;
+            showStateDialog();
+        }
 
     }
 

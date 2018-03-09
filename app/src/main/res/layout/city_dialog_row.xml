@@ -11,10 +11,10 @@
         android:weightSum="6">
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="5"
             android:layout_height="wrap_content"
-            android:id="@+id/country_name"
-            android:text="Country name"
+            android:id="@+id/city_name"
+            android:text="City name"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_centerVertical="true"
@@ -22,23 +22,19 @@
 
         <RadioGroup
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="1"
+
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_centerVertical="true">
 
             <RadioButton
-                android:id="@+id/select_full"
+                android:id="@+id/select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Full"
+
                 />
 
-            <RadioButton
-                android:id="@+id/filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Filter"/>
 
         </RadioGroup>
 
@@ -50,5 +46,4 @@
         android:layout_alignParentBottom="true"
         android:background="@color/cardview_dark_background"
         ></View>
-
 </RelativeLayout>
