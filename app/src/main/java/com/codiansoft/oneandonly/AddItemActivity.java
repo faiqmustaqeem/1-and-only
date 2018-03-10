@@ -179,7 +179,7 @@ public class AddItemActivity extends AppCompatActivity {
     List<CountryModel> filteredListCountry;
     List<StateModel> filteredListState;
 
-
+    boolean isAlternateSelected=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -461,24 +461,28 @@ public class AddItemActivity extends AppCompatActivity {
                         uploadAd(AddItemActivity.this);
                     } else if (GlobalClass.selectedAddPostType.equals("alternate")) {
 
+                        if (!isAlternateSelected)
+                        {
 
-                       // changing for multiple countries
-                      //  Intent i = new Intent(AddItemActivity.this, AdCountriesActivity.class);
-                       // startActivity(i);
-                        final List<CountryModel> countryList=new ArrayList<CountryModel>();
-                        final CountryDialog countryDialog=new CountryDialog(AddItemActivity.this , countryList);
+                            isAlternateSelected = true;
+
+
+                        // changing for multiple countries
+                        //  Intent i = new Intent(AddItemActivity.this, AdCountriesActivity.class);
+                        // startActivity(i);
+                        final List<CountryModel> countryList = new ArrayList<CountryModel>();
+                        final CountryDialog countryDialog = new CountryDialog(AddItemActivity.this, countryList);
 
                         countryDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         countryDialog.setCancelable(false);
                         countryDialog.show();
 
-                        TextView ok=(TextView) countryDialog.findViewById(R.id.ok);
+                        TextView ok = (TextView) countryDialog.findViewById(R.id.ok);
                         ok.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                filteredListCountry=countryDialog.getFilteredCountries();
-                                if(filteredListCountry.size() > 0)
-                                {
+                                filteredListCountry = countryDialog.getFilteredCountries();
+                                if (filteredListCountry.size() > 0) {
                                     countryDialog.dismiss();
                                     showStateDialog();
                                 }
@@ -486,11 +490,16 @@ public class AddItemActivity extends AppCompatActivity {
 
                             }
                         });
+                    }
+                    else {
+                            uploadAd(addItemAct);
+                        }
 
                     }
                 }
             }
         });
+
         etDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -539,7 +548,7 @@ public class AddItemActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    if(countryIndex!= filteredListCountry.size())
+                    if(countryIndex <= filteredListCountry.size())
                     {
 
                         filteredListState=stateDialog.getFilteredList();
@@ -564,7 +573,7 @@ public class AddItemActivity extends AppCompatActivity {
     public void showCityDialog()
     {
 
-        if(stateIndex!= filteredListState.size())
+        if(stateIndex < filteredListState.size())
         {
 
             String state_id=filteredListState.get(stateIndex).getId();
@@ -579,7 +588,7 @@ public class AddItemActivity extends AppCompatActivity {
             ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(stateIndex!= filteredListState.size())
+                    if(stateIndex < filteredListState.size())
                     {
                         cityDialog.dismiss();
                         showCityDialog();
@@ -587,12 +596,18 @@ public class AddItemActivity extends AppCompatActivity {
                     }
                     else {
                         cityDialog.dismiss();
+
+                         if(countryIndex < filteredListCountry.size())  {
+
+                            stateIndex=0;
+                            showStateDialog();
+                        }
                     }
 
                 }
             });
         }
-        else if(countryIndex!= filteredListCountry.size())  {
+        else if(countryIndex < filteredListCountry.size())  {
 
             stateIndex=0;
             showStateDialog();
@@ -830,7 +845,9 @@ public class AddItemActivity extends AppCompatActivity {
                         finish();
                     }
                 }
-        ) {
+        )
+
+        {
             @Override
             protected Map<String, String> getParams() {
 

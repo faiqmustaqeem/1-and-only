@@ -28,6 +28,8 @@ public class GlobalClass {
     public static String MY_AD_STATUS_CHANGE_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/change_status";
     public static String AD_ACTIVE_DAYS_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/adInactivateTime";
     public static String REMOVE_AD_FOR_USER_URL = "http://codiansoft.com/salal/OneAndOnly/index.php/Api/adRemove";
+    public static String CHECK_IS_AGREED_ONCE = "http://codiansoft.com/salal/OneAndOnly/index.php/api/user/is_agreed";
+
 
     public static String selectedCategory;
     public static String selectedSubCategory;

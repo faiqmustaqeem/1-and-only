@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
     private static final int PERMISSIONS_CODE = 11;
     private static final int REQUEST_CODE_FILTER_ACTIVITY = 22;
-    Button bProperty, bVehicle, bElectronics, bTravel, bLeisure, bBusiness, bAdults, bFood, bCareer, bLifestyle, bJobsAndTraining, bHomeAndGarden;
+    Button bProperty, bVehicle, bElectronics, bTravel, bLeisure, bBusiness, bAdults, bFood, bCareer, bLifestyle, bJobsAndTraining, bHomeAndGarden , bAddPost;
     public static ArrayList<CategoriesModel> categories;
     CategoriesModel categoriesModel;
     ProgressDialog progressDialog;
@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     RelativeLayout clMain;
 
+    String isAgreed="0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,6 +194,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             JSONObject Jobject = new JSONObject(response);
                             JSONObject result = Jobject.getJSONObject("result");
                             if (result.get("status").equals("success")) {
+
+                                isAgreed=result.getString("agreed");
+                                Log.e("agreed" , result.getString("agreed"));
                                 JSONArray Data = Jobject.getJSONArray("data");
                                 categories = new ArrayList<CategoriesModel>();
 
@@ -384,12 +388,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bJobsAndTraining.setOnClickListener(this);
         bHomeAndGarden = (Button) findViewById(R.id.bHomeAndGarden);
         bHomeAndGarden.setOnClickListener(this);
+        bAddPost=(Button)findViewById(R.id.bAddPost);
+        bAddPost.setOnClickListener(this);
 
         mListView = (ListView) findViewById(R.id.lvSearchedAds);
         bFilter = (Button) findViewById(R.id.bFilter);
         bFilter.setOnClickListener(this);
 
         clMain = (RelativeLayout) findViewById(R.id.clMain);
+
     }
 
     @Override
@@ -589,6 +596,93 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return super.onOptionsItemSelected(item);
     }
+    private void checkIsAgreed() {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Checking...");
+        progressDialog.setProgressNumberFormat(null);
+        progressDialog.setProgressPercentFormat(null);
+        progressDialog.show();
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, GlobalClass.CHECK_IS_AGREED_ONCE,
+                new Response.Listener<String>() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+
+                    public void onResponse(String response) {
+                        // response
+                        try {
+                            JSONObject Jobject = new JSONObject(response);
+                            JSONObject result = Jobject.getJSONObject("result");
+                            if (result.get("status").equals("success")) {
+
+
+
+                                Intent electronicsIntent = new Intent(MainActivity.this, ChooseSubCategoryActivity.class);
+                                startActivity(electronicsIntent);
+
+                                progressDialog.dismiss();
+
+                            } else if (result.get("status").equals("error")) {
+                                Toast.makeText(MainActivity.this, "Recheck and try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+
+                        } catch (Exception ee) {
+                            Toast.makeText(MainActivity.this, "error: " + ee.toString(), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+
+                        }
+
+                        progressDialog.dismiss();
+
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse response = error.networkResponse;
+                        progressDialog.dismiss();
+                        if (response != null && response.data != null) {
+                            switch (response.statusCode) {
+                                case 409:
+//                                    utilities.dialog("Already Exist", act);
+                                    break;
+                                case 400:
+                                    Toast.makeText(MainActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                                default:
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                            }
+                        }
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams() {
+
+                SharedPreferences settings = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                String userID = settings.getString("userID", "defaultValue");
+
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_id", userID);
+
+                Log.e("params_is_agreed" , params.toString());
+
+                return params;
+            }
+        };
+
+        queue.add(postRequest);
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -663,6 +757,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     public ArrayList<String> getWhatsappContacts()
     {
@@ -868,45 +963,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case R.id.bAdults:
                     //block adults category for saudi arabia
+                    if(isAgreed.equals("0"))
+                    {
+                        new MaterialDialog.Builder(this)
+                                .title("warning")
+                                .content("Disclaimer\n" +
+                                        "This section may contain adult material, sexual content, including pictorial nudity and adult language. 1andOnly is not responsible for any material posted on this site; it is the responsibility of the user to ensure no unauthorized material is submitted. The section of 1and only site is to be accessed only by persons who are 18 years of age or older (and is not considered to be a minor in his/her state of residence) and who live in a community or local jurisdiction where nude pictures and explicit adult materials are prohibited by law. By accessing this website, you are representing to us that you meet the above qualifications. A false representation may be a criminal offense.\n" +
+                                        "I confirm and represent that I am 18 years of age or older (and am not considered to be a minor in my state of residence) and that I am not located in a community or local jurisdiction where nude pictures or explicit adult materials are prohibited by any law. I agree to report any illegal services or activities which violate the Terms of Use. I also agree to report suspected exploitation of minors and/or human trafficking to the appropriate authorities.\n" +
+                                        "I have read and agree to this disclaimer as well as the Terms of Use.\n")
+                                .positiveText("Agree")
+                                .negativeText("don't agree")
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which)
+                                    {
+                                        if (GlobalClass.userCountryID.equals("191"))
+                                        {
 
-                    new MaterialDialog.Builder(this)
-                            .title("warning")
-                            .content("Disclaimer\n" +
-                                    "This section may contain adult material, sexual content, including pictorial nudity and adult language. 1andOnly is not responsible for any material posted on this site; it is the responsibility of the user to ensure no unauthorized material is submitted. The section of 1and only site is to be accessed only by persons who are 18 years of age or older (and is not considered to be a minor in his/her state of residence) and who live in a community or local jurisdiction where nude pictures and explicit adult materials are prohibited by law. By accessing this website, you are representing to us that you meet the above qualifications. A false representation may be a criminal offense.\n" +
-                                    "I confirm and represent that I am 18 years of age or older (and am not considered to be a minor in my state of residence) and that I am not located in a community or local jurisdiction where nude pictures or explicit adult materials are prohibited by any law. I agree to report any illegal services or activities which violate the Terms of Use. I also agree to report suspected exploitation of minors and/or human trafficking to the appropriate authorities.\n" +
-                                    "I have read and agree to this disclaimer as well as the Terms of Use.\n")
-                            .positiveText("Agree")
-                            .negativeText("don't agree")
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                        if (GlobalClass.userCountryID.equals("191")) {
-                        Toast.makeText(MainActivity.this, "Not Allowed", Toast.LENGTH_SHORT).show();
-                    } else {
-                        for (int i = 0; i < categories.size(); i++) {
-                            if (categories.get(i).getName().equals("Adults")) {
+                                            Toast.makeText(MainActivity.this, "Not Allowed", Toast.LENGTH_SHORT).show();
+                                        } else
+                                        {
+                                            for (int i = 0; i < categories.size(); i++) {
+                                                if (categories.get(i).getName().equals("Adults")) {
 
-                                GlobalClass.selectedCategory = categories.get(i).getName();
-                                GlobalClass.selectedCategoryID = categories.get(i).getCategory_Id();
-                                if (categories.get(i).getCategorySatus().equals("0")) {
-                                    Toast.makeText(MainActivity.this, "Enable it from dashboard", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Intent electronicsIntent = new Intent(MainActivity.this, ChooseSubCategoryActivity.class);
-                                    startActivity(electronicsIntent);
-                                }
-                                break;
-                            }
-                        }
+                                                    GlobalClass.selectedCategory = categories.get(i).getName();
+                                                    GlobalClass.selectedCategoryID = categories.get(i).getCategory_Id();
+                                                    if (categories.get(i).getCategorySatus().equals("0")) {
+                                                        Toast.makeText(MainActivity.this, "Enable it from dashboard", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        checkIsAgreed();
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        // do nothing , dont open adults page
+                                    }
+                                })
+                                .show();
                     }
-                                }
-                            })
-                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    // do nothing , dont open adults page
-                                }
-                            })
-                            .show();
+                    else {
+//                        checkIsAgreed();
+
+                        Intent electronicsIntent = new Intent(MainActivity.this, ChooseSubCategoryActivity.class);
+                        startActivity(electronicsIntent);
+                    }
+
                 break;
                 case R.id.bFood:
                     for (int i = 0; i < categories.size(); i++) {
@@ -982,6 +1089,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             break;
                         }
                     }
+                    break;
+                case R.id.bAddPost:
+
+                    Intent addItemIntent = new Intent(MainActivity.this, AddItemActivity.class);
+                    startActivity(addItemIntent);
                     break;
                 case R.id.bFilter:
                     Intent intent = new Intent(this, SearchFiltersActivity.class);

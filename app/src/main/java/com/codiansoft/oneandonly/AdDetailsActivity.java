@@ -184,14 +184,21 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
         tvContact2.setText(GlobalClass.selectedPropertyContact2);
         refernce_number.setText(GlobalClass.selectedPropertyRefernceNumber);
 
-        int int_otherAdds=Integer.parseInt(GlobalClass.otherAddsCount)-1;
-        if(int_otherAdds==0)
+        int int_otherAdds=0;
+        try{
+             int_otherAdds=Integer.parseInt(GlobalClass.otherAddsCount)-1;
+            if(int_otherAdds==0)
+            {
+                otherAddsCount.setText("this person hos no other Ad");
+            }
+            else
+            {
+                otherAddsCount.setText("this person has "+int_otherAdds+" other Ads");
+            }
+
+        }catch(Exception e)
         {
-            otherAddsCount.setText("this person hos no other Ad");
-        }
-        else
-        {
-            otherAddsCount.setText("this person has "+int_otherAdds+" other Ads");
+            otherAddsCount.setVisibility(View.GONE);
         }
 
         rvAdImages = (RecyclerViewPager) findViewById(R.id.rvAdImages);

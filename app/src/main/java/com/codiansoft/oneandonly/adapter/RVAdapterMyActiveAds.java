@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +58,8 @@ public class RVAdapterMyActiveAds extends RecyclerView.Adapter<RVAdapterMyActive
         TextView txtID;
         TextView t;
         ImageView ivAdPic, ivOptions;
+        ConstraintLayout layout;
+//        LinearLayout parent_activeAdds;
 
         public MyViewHolder(View view) {
             super(view);
@@ -68,7 +72,11 @@ public class RVAdapterMyActiveAds extends RecyclerView.Adapter<RVAdapterMyActive
             t = (TextView) view.findViewById(R.id.position);
             ivAdPic = (ImageView) view.findViewById(R.id.ivAdImage);
             ivOptions = (ImageView) view.findViewById(R.id.ivOptions);
+            layout=(ConstraintLayout)view.findViewById(R.id.clCountry);
+            layout.setOnClickListener(this);
+//            parent_activeAdds=(LinearLayout)view.findViewById(R.id.parent_activeAdds);
 
+//            parent_activeAdds.setOnClickListener(this);
             ivOptions.setOnClickListener(this);
             ivAdPic.setOnClickListener(this);
             txtDescription.setOnClickListener(this);
@@ -78,6 +86,8 @@ public class RVAdapterMyActiveAds extends RecyclerView.Adapter<RVAdapterMyActive
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
+
+
                 case R.id.ivOptions:
                     //Creating the instance of PopupMenu
                     PopupMenu popup = new PopupMenu(c, ivOptions);
@@ -154,12 +164,32 @@ public class RVAdapterMyActiveAds extends RecyclerView.Adapter<RVAdapterMyActive
                     });
 
                     popup.show();//showing popup menu
-
                     break;
+
                 case R.id.tvName:
                 case R.id.tvTitle:
                 case R.id.tvDescription:
                 case R.id.ivAdImage:
+
+                    selectedMyAdDataModel = dataModels.get(getAdapterPosition());
+                    GlobalClass.selectedAdImages = selectedMyAdDataModel.getAdImages();
+
+                    GlobalClass.selectedPropertyName = selectedMyAdDataModel.getName();
+                    GlobalClass.selectedPropertyCity = selectedMyAdDataModel.getCity();
+                    GlobalClass.selectedPropertyUpdateTime = selectedMyAdDataModel.getLastUpdateTime();
+                    GlobalClass.selectedPropertyID = selectedMyAdDataModel.getID();
+                    GlobalClass.selectedPropertyDetails = selectedMyAdDataModel.getDetails();
+                    GlobalClass.selectedPropertyContact1 = selectedMyAdDataModel.getContact1();
+                    GlobalClass.selectedPropertyContact2 = selectedMyAdDataModel.getContact2();
+                    GlobalClass.selectedPropertyEmail = selectedMyAdDataModel.getEmail();
+                    GlobalClass.selectedPropertyImageURL = selectedMyAdDataModel.getImageURL();
+                    GlobalClass.selectedPropertyCategory = selectedMyAdDataModel.getCategory();
+                    GlobalClass.selectedPropertyLatitude = selectedMyAdDataModel.getLatitude();
+                    GlobalClass.selectedPropertyLongitude = selectedMyAdDataModel.getLongitude();
+
+                    isMyAd = true;
+
+                    fetchDescriptionHeadings();
                     break;
             }
         }

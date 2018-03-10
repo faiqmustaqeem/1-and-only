@@ -152,6 +152,27 @@ public class RVAdapterMyPendingAds extends RecyclerView.Adapter<RVAdapterMyPendi
                 case R.id.tvTitle:
                 case R.id.tvDescription:
                 case R.id.ivAdImage:
+
+                    selectedMyAdDataModel = dataModels.get(getAdapterPosition());
+                    GlobalClass.selectedAdImages = selectedMyAdDataModel.getAdImages();
+
+                    GlobalClass.selectedPropertyName = selectedMyAdDataModel.getName();
+                    GlobalClass.selectedPropertyCity = selectedMyAdDataModel.getCity();
+                    GlobalClass.selectedPropertyUpdateTime = selectedMyAdDataModel.getLastUpdateTime();
+                    GlobalClass.selectedPropertyID = selectedMyAdDataModel.getID();
+                    GlobalClass.selectedPropertyDetails = selectedMyAdDataModel.getDetails();
+                    GlobalClass.selectedPropertyContact1 = selectedMyAdDataModel.getContact1();
+                    GlobalClass.selectedPropertyContact2 = selectedMyAdDataModel.getContact2();
+                    GlobalClass.selectedPropertyEmail = selectedMyAdDataModel.getEmail();
+                    GlobalClass.selectedPropertyImageURL = selectedMyAdDataModel.getImageURL();
+                    GlobalClass.selectedPropertyCategory = selectedMyAdDataModel.getCategory();
+                    GlobalClass.selectedPropertyLatitude = selectedMyAdDataModel.getLatitude();
+                    GlobalClass.selectedPropertyLongitude = selectedMyAdDataModel.getLongitude();
+
+                    isMyAd = true;
+
+                    fetchDescriptionHeadings();
+
                     break;
             }
         }
