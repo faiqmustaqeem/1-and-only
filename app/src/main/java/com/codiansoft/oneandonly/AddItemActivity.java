@@ -130,6 +130,7 @@ public class AddItemActivity extends AppCompatActivity {
     Button bAddAttribute;
     ItemAttributeAdapter itemAttributeAdapter;
 
+
     Button bSubmit, bSetLoc;
     static EditText etTitle;
     static EditText etDescription;
@@ -485,6 +486,9 @@ public class AddItemActivity extends AppCompatActivity {
                                 if (filteredListCountry.size() > 0) {
                                     countryDialog.dismiss();
                                     showStateDialog();
+                                }else
+                                {
+                                    countryDialog.dismiss();
                                 }
 
 
@@ -911,6 +915,7 @@ public class AddItemActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         // response
                         try {
+
                             JSONObject Jobject = new JSONObject(response);
                             JSONObject result = Jobject.getJSONObject("result");
                             if (result.get("status").equals("success")) {
@@ -1485,6 +1490,8 @@ public class AddItemActivity extends AppCompatActivity {
         tvDes4 = (TextView) findViewById(R.id.tvDescription4);
         char_count=(TextView)findViewById(R.id.char_count);
         tvSaveAdLocations = (TextView) findViewById(R.id.tvSaveAdLocations);
+
+
 
         rbAlternate = (RadioButton) findViewById(R.id.rbSendToAlternateLoc);
         rbDefault = (RadioButton) findViewById(R.id.rbSendToDefaultLoc);

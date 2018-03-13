@@ -89,6 +89,7 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
 //                ((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
 
                 selectedItemDataModel = dataModels.get(position);
+
                 GlobalClass.selectedAdImages = selectedItemDataModel.getAdImages();
 
                 GlobalClass.selectedPropertyName = selectedItemDataModel.getName();

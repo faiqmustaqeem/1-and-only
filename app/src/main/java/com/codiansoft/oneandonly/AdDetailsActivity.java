@@ -1,19 +1,31 @@
 package com.codiansoft.oneandonly;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -30,6 +42,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.codiansoft.oneandonly.GlobalClass.selectedItemDataModel;
 
@@ -62,6 +75,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
     AdImagesModel adImagesModel;
     TextView refernce_number;
     TextView otherAddsCount;
+    ImageView favourite;
 
     private List<String> adImagesList = new ArrayList<>();
 
@@ -116,6 +130,8 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initUI() {
+        favourite=(ImageView)findViewById(R.id.favourite);
+
         tvCityName = (TextView) findViewById(R.id.tvCityName);
         tvPropertyName = (TextView) findViewById(R.id.tvPropertyName);
         tvPropertyDetails = (TextView) findViewById(R.id.tvPropertyDetails);
@@ -152,6 +168,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
         bCall.setOnClickListener(this);
         bMap.setOnClickListener(this);
         bReport.setOnClickListener(this);
+        favourite.setOnClickListener(this);
 
 //        Glide.with(this).load(GlobalClass.selectedPropertyImageURL).into(ivPropertyImage);
         Glide.with(AdDetailsActivity.this).load(GlobalClass.selectedPropertyImageURL).into(ivPropertyImage);
@@ -269,6 +286,81 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
                     Toast.makeText(this, "Can not report your own add", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.favourite:
+                addToFavourite();
+                break;
+
         }
     }
+    public void addToFavourite()
+    {
+
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, GlobalClass.ADD_TO_FAVOURITE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        try {
+                            Log.e("item_added" , response);
+                            Toast.makeText(AdDetailsActivity.this, "Add Added in favourite", Toast.LENGTH_SHORT).show();
+
+                        } catch (Exception ee) {
+                        }
+
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null) {
+                            switch (response.statusCode) {
+                                case 409:
+//                                    utilities.dialog("Already Exist", act);
+                                    break;
+                                case 400:
+                                    Toast.makeText(AdDetailsActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                                default:
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                            }
+                        }
+
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                    }
+                }
+        )
+
+        {
+            @Override
+            protected Map<String, String> getParams() {
+
+                SharedPreferences settings = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                String userID = settings.getString("userID", "defaultValue");
+                String apiSecretKey = settings.getString("apiSecretKey", "");
+                String email = settings.getString("email", "");
+                String contactNum1 = settings.getString("contactNum1", "");
+                String contactNum2 = settings.getString("contactNum2", "");
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_id", userID);
+                params.put("add_id" ,GlobalClass.selectedPropertyID );
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+
+    }
+
 }

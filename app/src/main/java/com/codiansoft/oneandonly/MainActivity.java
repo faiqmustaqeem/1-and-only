@@ -617,9 +617,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         try {
                             JSONObject Jobject = new JSONObject(response);
                             JSONObject result = Jobject.getJSONObject("result");
-                            if (result.get("status").equals("success")) {
+                            if (result.getString("status").equals("success")) {
 
-
+                                Log.e("agreed1" , result.getString("response"));
+                                isAgreed="1";
 
                                 Intent electronicsIntent = new Intent(MainActivity.this, ChooseSubCategoryActivity.class);
                                 startActivity(electronicsIntent);
