@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EditMyAdActivity extends AppCompatActivity {
+
     EditText etTitle, etDescription, etPrice;
     TextView tvCurrencyCode;
     Button bUpdate;

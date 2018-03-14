@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,11 +38,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.codiansoft.oneandonly.AdDetailsActivity.isMyAd;
 import static com.codiansoft.oneandonly.GlobalClass.selectedItemDataModel;
 
-public class AdListViewActivity extends AppCompatActivity implements View.OnClickListener {
-
+public class FavouriteAddsListAcivity extends AppCompatActivity implements View.OnClickListener{
     public static ProgressBar progressBar;
     private ListView mListView;
     private ListViewAdapter mAdapter;
@@ -66,7 +64,7 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = getActionBar();
             if (actionBar != null) {
-                actionBar.setTitle("ListView");
+                actionBar.setTitle("Favourites");
             }
         }
         getSupportActionBar().hide();
@@ -109,9 +107,10 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
                 GlobalClass.selectedPropertyRefernceNumber=selectedItemDataModel.getReference_id();
                 GlobalClass.otherAddsCount=selectedItemDataModel.getOtherAddsCount();
 
-                isMyAd = false;
+                AdDetailsActivity.isMyAd = false;
+                GlobalClass.from="favourite";
 
-                Intent i = new Intent(AdListViewActivity.this, AdDetailsActivity.class);
+                Intent i = new Intent(FavouriteAddsListAcivity.this, AdDetailsActivity.class);
                 i.putExtra("restaurantName", selectedItemDataModel.getName());
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
@@ -170,7 +169,7 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, GlobalClass.FETCH_ALL_ADDS_URL,
+        StringRequest postRequest = new StringRequest(Request.Method.POST, GlobalClass.FETCH_FAVOURITE_ADDS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -180,12 +179,16 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
                             JSONObject Jobject = new JSONObject(response);
                             JSONObject result = Jobject.getJSONObject("result");
                             if (result.get("status").equals("success")) {
-                                JSONArray data = Jobject.getJSONArray("data");
+                               // JSONObject dataObj = Jobject.getJSONObject("data");
+                                JSONArray data=result.getJSONArray("data");
+
                                 for (int i = 0; i < data.length(); i++) {
-                                    JSONObject adObj = data.getJSONObject(i);
-                                    if (adObj.getString("sub_cat_id").equals(GlobalClass.selectedSubCategoryID)) {
+                                    JSONObject adObj = data.getJSONObject(i).getJSONObject("data");
+                                    {
+                                        JSONObject obj=data.getJSONObject(i);
                                         ArrayList<String> adImages = new ArrayList<String>();
-                                        JSONArray adImagesArr = adObj.getJSONArray("images");
+
+                                        JSONArray adImagesArr = data.getJSONObject(i).getJSONArray("images");
 
                                         if (adObj.getString("active").equals("0")) {
 
@@ -193,12 +196,12 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
                                                 adImages.add(adImagesArr.getJSONObject(j).getString("path"));
                                             }
                                             ArrayList<String> adImagesTemp = adImages;
-
-                                            dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "For Rent", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("addv_id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "", adObj.getString("latitude"), adObj.getString("longitude"), adObj.getString("price"), adObj.getString("currency_code"), adObj.getString("country_name"), adObj.getString("state_name"), adObj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4"),adObj.getString("reference_id"), adObj.getString("count_ads")));
+                                            Log.e("title", adObj.getString("title"));
+                                            dataModels.add(new PropertyListItemDataModel(adObj.getString("title"), "", adObj.getString("city"), adObj.getString("last_updated"), adObj.getString("id"), adObj.getString("description"), adObj.getString("mobile_number"), adObj.getString("phone_number"), adObj.getString("email"), "", adObj.getString("latitude"), adObj.getString("longitude"), adObj.getString("price"), adObj.getString("currency_code"), obj.getString("country_name"), obj.getString("state_name"), obj.getString("city_name"), adImagesTemp, adObj.getString("dis_1"), adObj.getString("dis_2"), adObj.getString("dis_3"), adObj.getString("dis_4"),adObj.getString("reference_id"), ""));
                                         }
                                     }
                                 }
-                                mAdapter = new ListViewAdapter(AdListViewActivity.this, dataModels);
+                                mAdapter = new ListViewAdapter(FavouriteAddsListAcivity.this, dataModels);
                                 mListView.setAdapter(mAdapter);
 
                                 Toast.makeText(mContext, "Ads fetched successfully!", Toast.LENGTH_SHORT).show();
@@ -249,15 +252,10 @@ public class AdListViewActivity extends AppCompatActivity implements View.OnClic
 
                 SharedPreferences settings = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
                 String userID = settings.getString("userID", "defaultValue");
-                String apiSecretKey = settings.getString("apiSecretKey", "");
-                String email = settings.getString("email", "");
-                String contactNum1 = settings.getString("contactNum1", "");
-                String contactNum2 = settings.getString("contactNum2", "");
+
 
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("api_secret", apiSecretKey);
-
-                Log.e("params_fetchAdds" , params.toString());
+                params.put("user_id", userID);
                 return params;
             }
         };

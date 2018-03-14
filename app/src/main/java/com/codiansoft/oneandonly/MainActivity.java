@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
     private static final int PERMISSIONS_CODE = 11;
     private static final int REQUEST_CODE_FILTER_ACTIVITY = 22;
-    Button bProperty, bVehicle, bElectronics, bTravel, bLeisure, bBusiness, bAdults, bFood, bCareer, bLifestyle, bJobsAndTraining, bHomeAndGarden , bAddPost;
+    Button bProperty, bVehicle, bElectronics, bTravel, bLeisure, bBusiness, bAdults, bFood, bCareer, bLifestyle, bJobsAndTraining, bHomeAndGarden , bAddPost , bFavourites;
     public static ArrayList<CategoriesModel> categories;
     CategoriesModel categoriesModel;
     ProgressDialog progressDialog;
@@ -394,6 +394,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mListView = (ListView) findViewById(R.id.lvSearchedAds);
         bFilter = (Button) findViewById(R.id.bFilter);
         bFilter.setOnClickListener(this);
+        bFavourites=(Button)findViewById(R.id.bFavourites);
+        bFavourites.setOnClickListener(this);
 
         clMain = (RelativeLayout) findViewById(R.id.clMain);
 
@@ -759,6 +761,93 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    public void loadFavourites()
+    {
+
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Checking...");
+        progressDialog.setProgressNumberFormat(null);
+        progressDialog.setProgressPercentFormat(null);
+        progressDialog.show();
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, GlobalClass.FETCH_FAVOURITE_ADDS,
+                new Response.Listener<String>() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+
+                    public void onResponse(String response) {
+                        // response
+                        try {
+                            JSONObject Jobject = new JSONObject(response);
+                            JSONObject result = Jobject.getJSONObject("result");
+                            if (result.getString("status").equals("success")) {
+
+
+                                progressDialog.dismiss();
+
+                            } else if (result.get("status").equals("error")) {
+                                Toast.makeText(MainActivity.this, "Recheck and try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+
+                        } catch (Exception ee) {
+                            Toast.makeText(MainActivity.this, "error: " + ee.toString(), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+
+                        }
+
+                        progressDialog.dismiss();
+
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse response = error.networkResponse;
+                        progressDialog.dismiss();
+                        if (response != null && response.data != null) {
+                            switch (response.statusCode) {
+                                case 409:
+//                                    utilities.dialog("Already Exist", act);
+                                    break;
+                                case 400:
+                                    Toast.makeText(MainActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                                default:
+//                                    utilities.dialog("Connection Problem", act);
+                                    break;
+                            }
+                        }
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams() {
+
+                SharedPreferences settings = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                String userID = settings.getString("userID", "defaultValue");
+
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_id", userID);
+
+
+
+                return params;
+            }
+        };
+
+        queue.add(postRequest);
+    }
+
+
 
     public ArrayList<String> getWhatsappContacts()
     {
@@ -1099,6 +1188,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case R.id.bFilter:
                     Intent intent = new Intent(this, SearchFiltersActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_FILTER_ACTIVITY);
+                    break;
+                case R.id.bFavourites:
+                    Intent intent1 = new Intent(this, FavouriteAddsListAcivity.class);
+                    startActivity(intent1);
                     break;
             }
         }

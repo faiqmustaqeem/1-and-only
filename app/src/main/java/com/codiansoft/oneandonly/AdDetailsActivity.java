@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,6 +77,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
     TextView refernce_number;
     TextView otherAddsCount;
     ImageView favourite;
+    RelativeLayout favouriteLayout;
 
     private List<String> adImagesList = new ArrayList<>();
 
@@ -163,6 +165,8 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
         tvDescription3Heading.setText(GlobalClass.selectedSubCatDes3Title);
         tvDescription4Heading.setText(GlobalClass.selectedSubCatDes4Title);
 
+        favouriteLayout=(RelativeLayout)findViewById(R.id.favoriteLayout);
+
         bBack.setOnClickListener(this);
         bEmail.setOnClickListener(this);
         bCall.setOnClickListener(this);
@@ -204,6 +208,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
         int int_otherAdds=0;
         try{
              int_otherAdds=Integer.parseInt(GlobalClass.otherAddsCount)-1;
+
             if(int_otherAdds==0)
             {
                 otherAddsCount.setText("this person hos no other Ad");
@@ -218,6 +223,11 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
             otherAddsCount.setVisibility(View.GONE);
         }
 
+        if(GlobalClass.from.equals("favourite"))
+        {
+            favouriteLayout.setVisibility(View.GONE);
+            otherAddsCount.setVisibility(View.GONE);
+        }
         rvAdImages = (RecyclerViewPager) findViewById(R.id.rvAdImages);
 
 //        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
