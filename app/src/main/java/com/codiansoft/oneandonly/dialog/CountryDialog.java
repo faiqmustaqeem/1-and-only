@@ -53,6 +53,7 @@ public class CountryDialog extends Dialog {
     ProgressBar progressBar;
 
 
+
     public CountryDialog(Activity activity , List<CountryModel> list) {
         super(activity);
 

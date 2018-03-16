@@ -364,7 +364,7 @@ public class AdDetailsActivity extends AppCompatActivity implements View.OnClick
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("user_id", userID);
-                params.put("add_id" ,GlobalClass.selectedPropertyID );
+                params.put("add_id" ,GlobalClass.selectedPropertyID);
 
                 return params;
             }

@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.codiansoft.oneandonly.AdDetailsActivity;
+import com.codiansoft.oneandonly.EditMyAdActivity;
 import com.codiansoft.oneandonly.GlobalClass;
 import com.codiansoft.oneandonly.R;
 import com.codiansoft.oneandonly.model.MyAdsModel;
@@ -124,6 +125,16 @@ public class RVAdapterMyPendingAds extends RecyclerView.Adapter<RVAdapterMyPendi
                                     break;
 
 
+                                case R.id.my_ad_edit:
+                                    GlobalClass.myAdEditID = dataModels.get(getAdapterPosition()).getID();
+                                    GlobalClass.myAdEditTitle = dataModels.get(getAdapterPosition()).getName();
+                                    GlobalClass.myAdEditDescription = dataModels.get(getAdapterPosition()).getDetails();
+                                    GlobalClass.myAdEditCurrencyCode = dataModels.get(getAdapterPosition()).getCurrencyCode();
+                                    GlobalClass.myAdEditPrice = dataModels.get(getAdapterPosition()).getPrice();
+
+                                    Intent editAdIntent = new Intent(c, EditMyAdActivity.class);
+                                    c.startActivity(editAdIntent);
+                                    break;
                                 case R.id.my_ad_delete:
                                     new android.support.v7.app.AlertDialog.Builder(c)
                                             .setTitle("Are you sure to delete ad " + dataModels.get(getAdapterPosition()).getName() + "?")

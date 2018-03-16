@@ -112,6 +112,7 @@ public class RVAdapterMyInactiveAds extends RecyclerView.Adapter<RVAdapterMyInac
                                     break;
 
                                 case R.id.my_ad_view:
+                                    
                                     selectedMyAdDataModel = dataModels.get(getAdapterPosition());
                                     GlobalClass.selectedAdImages = selectedMyAdDataModel.getAdImages();
 

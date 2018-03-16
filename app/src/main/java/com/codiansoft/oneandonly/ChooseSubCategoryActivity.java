@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -115,25 +116,45 @@ public class ChooseSubCategoryActivity extends AppCompatActivity implements View
                             if (result.get("status").equals("success")) {
                                 JSONArray Data = Jobject.getJSONArray("data");
 
+                                sub_categories_names.clear();
+                                sub_categories_last_update_time.clear();
+                                sub_categories_ads_quantity.clear();
+
                                 for (int i = 0; i < Data.length(); i++) {
                                     JSONObject categoryObj = Data.getJSONObject(i);
 
+
                                     if (categoryObj.getString("category_Id").equals(GlobalClass.selectedCategoryID)) {
+
+                                        Log.e("selected_category_id" , GlobalClass.selectedCategoryID);
+                                        Log.e("category_Id",categoryObj.getString("category_Id"));
+
+                                     //   sub_categories_last_update_time.add(categoryObj.getString("last_updated"));
+                                     //   sub_categories_ads_quantity.add(categoryObj.getString("ads_nums"));
                                         JSONArray subCatArray = categoryObj.getJSONArray("sub_category");
+
+                                        Log.e("size_sub_cty" , subCatArray.length()+"");
                                         for (int j = 0; j < subCatArray.length(); j++) {
                                             sub_categories_names.add(subCatArray.getJSONObject(j).getString("sub_cat_name"));
-                                            sub_categories_last_update_time.add(subCatArray.getJSONObject(j).getString("last_updated"));
-                                            sub_categories_ads_quantity.add(subCatArray.getJSONObject(j).getString("subCat_adsNum"));
+
+                                            if(j == subCatArray.length()-1)
+                                            {
+
+                                                mAdapter = new SubCategoriesAdapter(ChooseSubCategoryActivity.this, sub_categories_names, sub_categories_last_update_time, sub_categories_ads_quantity);
+                                                lvSubCategories.setAdapter(mAdapter);
+                                                progressBar.setVisibility(View.GONE);
+                                                break;
+                                            }
+
+
                                         }
                                     }
 
 //                                    categoriesDataModel.add(new CategoriesModel(categoryObj.getString("category_Id"), categoryObj.getString("name"), categoryObj.getString("description"), sub_categories_names));
 
                                 }
+                                Log.e("size" , sub_categories_names.size()+"");
 
-                                mAdapter = new SubCategoriesAdapter(ChooseSubCategoryActivity.this, sub_categories_names, sub_categories_last_update_time, sub_categories_ads_quantity);
-                                lvSubCategories.setAdapter(mAdapter);
-                                progressBar.setVisibility(View.GONE);
 
                             }
 
@@ -173,6 +194,7 @@ public class ChooseSubCategoryActivity extends AppCompatActivity implements View
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("api_secret", apiSecretKey);
+                Log.e("params" , params.toString());
                 return params;
             }
         };

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,8 +85,10 @@ public class EditMyAdActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         // response
                         try {
+                            Log.e("resonse" , response);
                             JSONObject Jobject = new JSONObject(response);
                             JSONObject result = Jobject.getJSONObject("result");
+
                             if (result.get("status").equals("success")) {
                                 Intent i = new Intent(EditMyAdActivity.this, MainActivity.class);
                                 startActivity(i);
@@ -135,18 +138,20 @@ public class EditMyAdActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
 
                 SharedPreferences settings = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
-                String userID = settings.getString("userID", "defaultValue");
+//                String userID = settings.getString("userID", "defaultValue");
                 String apiSecretKey = settings.getString("apiSecretKey", "");
-                String email = settings.getString("email", "");
-                String contactNum1 = settings.getString("contactNum1", "");
-                String contactNum2 = settings.getString("contactNum2", "");
+//                String email = settings.getString("email", "");
+//                String contactNum1 = settings.getString("contactNum1", "");
+//                String contactNum2 = settings.getString("contactNum2", "");
 
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("api_secret", apiSecretKey);
                 params.put("ad_id", GlobalClass.myAdEditID);
                 params.put("title", etTitle.getText().toString());
                 params.put("desc", etDescription.getText().toString());
                 params.put("price", etPrice.getText().toString());
+
+                Log.e("params" , params.toString());
 
                 return params;
             }

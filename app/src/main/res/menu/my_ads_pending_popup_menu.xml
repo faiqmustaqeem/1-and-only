@@ -6,4 +6,8 @@
     <item
         android:id="@+id/my_ad_delete"
         android:title="Delete" />
+
+    <item
+        android:id="@+id/my_ad_edit"
+        android:title="Edit" />
 </menu>

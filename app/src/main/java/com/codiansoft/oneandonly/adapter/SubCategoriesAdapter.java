@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class SubCategoriesAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context mContext;
-    ArrayList<String> sub_categories_name = new ArrayList<String>();
-    ArrayList<String> sub_categories_last_update_time = new ArrayList<String>();
-    ArrayList<String> sub_categories_ads_quantity = new ArrayList<String>();
+    ArrayList<String> sub_categories_name ;//= new ArrayList<String>();
+    ArrayList<String> sub_categories_last_update_time ;//= new ArrayList<String>();
+    ArrayList<String> sub_categories_ads_quantity ;//= new ArrayList<String>();
 
     // View lookup cache
     private static class ViewHolder {
@@ -81,8 +81,8 @@ public class SubCategoriesAdapter extends BaseAdapter {
             view.setTag(viewHolder);
 
             String subCategoryName = sub_categories_name.get(i);
-            String sub_ategories_last_update_time = sub_categories_last_update_time.get(i);
-            String sub_ategories_ads_quantity = sub_categories_ads_quantity.get(i);
+         //   String sub_ategories_last_update_time = sub_categories_last_update_time.get(i);
+          //  String sub_ategories_ads_quantity = sub_categories_ads_quantity.get(i);
 
             // Check if an existing view is being reused, otherwise inflate the view
             if (view == null) {
@@ -92,8 +92,8 @@ public class SubCategoriesAdapter extends BaseAdapter {
             }
 
             viewHolder.txtName.setText(subCategoryName);
-            viewHolder.tvLastUpdateTime.setText(sub_ategories_last_update_time);
-            viewHolder.tvAdsQuantity.setText(sub_ategories_ads_quantity);
+          //  viewHolder.tvLastUpdateTime.setText(sub_ategories_last_update_time);
+         //   viewHolder.tvAdsQuantity.setText(sub_ategories_ads_quantity);
         }
         return view;
     }

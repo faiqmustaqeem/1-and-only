@@ -1099,9 +1099,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     else {
 //                        checkIsAgreed();
+                        for (int i = 0; i < categories.size(); i++) {
+                            if (categories.get(i).getName().equals("Adults")) {
 
-                        Intent electronicsIntent = new Intent(MainActivity.this, ChooseSubCategoryActivity.class);
-                        startActivity(electronicsIntent);
+                                GlobalClass.selectedCategory = categories.get(i).getName();
+                                GlobalClass.selectedCategoryID = categories.get(i).getCategory_Id();
+                                if (categories.get(i).getCategorySatus().equals("0")) {
+                                    Toast.makeText(MainActivity.this, "Enable it from dashboard", Toast.LENGTH_SHORT).show();
+                                } else {
+
+                                    Intent electronicsIntent = new Intent(MainActivity.this, ChooseSubCategoryActivity.class);
+                                    startActivity(electronicsIntent);
+                                }
+                                break;
+                            }
+                        }
                     }
 
                 break;
