@@ -1296,7 +1296,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                     & adObj.getString("state_name").toLowerCase().contains(searchState.toLowerCase())
                                                     & adObj.getString("city_name").toLowerCase().contains(searchCity.toLowerCase())
                                             )
-                                            ) {
+                                            )
+                                    {
 
                                         ArrayList<String> adImages = new ArrayList<String>();
                                         JSONArray adImagesArr = adObj.getJSONArray("images");
@@ -1325,6 +1326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
 
                         } catch (Exception ee) {
+
                             Toast.makeText(MainActivity.this, "error: " + ee.toString(), Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
 
@@ -1355,7 +1357,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 }
-        ) {
+        )
+        {
             @Override
             protected Map<String, String> getParams() {
 

@@ -469,31 +469,31 @@ public class AddItemActivity extends AppCompatActivity {
 
 
                         // changing for multiple countries
-                        //  Intent i = new Intent(AddItemActivity.this, AdCountriesActivity.class);
-                        // startActivity(i);
-                        final List<CountryModel> countryList = new ArrayList<CountryModel>();
-                        final CountryDialog countryDialog = new CountryDialog(AddItemActivity.this, countryList);
-
-                        countryDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        countryDialog.setCancelable(false);
-                        countryDialog.show();
-
-                        TextView ok = (TextView) countryDialog.findViewById(R.id.ok);
-                        ok.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                filteredListCountry = countryDialog.getFilteredCountries();
-                                if (filteredListCountry.size() > 0) {
-                                    countryDialog.dismiss();
-                                    showStateDialog();
-                                }else
-                                {
-                                    countryDialog.dismiss();
-                                }
-
-
-                            }
-                        });
+                          Intent i = new Intent(AddItemActivity.this, AdCountriesActivity.class);
+                         startActivity(i);
+//                        final List<CountryModel> countryList = new ArrayList<CountryModel>();
+//                        final CountryDialog countryDialog = new CountryDialog(AddItemActivity.this, countryList);
+//
+//                        countryDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                        countryDialog.setCancelable(false);
+//                        countryDialog.show();
+//
+//                        TextView ok = (TextView) countryDialog.findViewById(R.id.ok);
+//                        ok.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                filteredListCountry = countryDialog.getFilteredCountries();
+//                                if (filteredListCountry.size() > 0) {
+//                                    countryDialog.dismiss();
+//                                    showStateDialog();
+//                                }else
+//                                {
+//                                    countryDialog.dismiss();
+//                                }
+//
+//
+//                            }
+//                        });
                     }
                     else {
                             uploadAd(addItemAct);

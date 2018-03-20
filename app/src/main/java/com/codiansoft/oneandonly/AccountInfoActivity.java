@@ -128,6 +128,7 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
             case R.id.etUsername:
                 etUsername.setEnabled(true);
                 break;
+            
             case R.id.ivProfilePic:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
@@ -449,6 +450,7 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                         }
 
                         if (progressBar.isShown()) {
+
                             progressBar.setVisibility(View.GONE);
                         }
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -481,6 +483,7 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                     }
                 }
         )
+
         {
             @Override
             protected Map<String, String> getParams() {
@@ -501,7 +504,8 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
         queue.add(postRequest);
     }
 
-    private void setStatesInSpinner(final String countryID, final String stateID, final String cityID) {
+    private void setStatesInSpinner(final String countryID, final String stateID, final String cityID)
+    {
 /*
         ArrayList<String> cities = null;
         JSONArray m_jArry;
@@ -553,7 +557,8 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                             statesAdapter = new ArrayAdapter<String>(AccountInfoActivity.this, android.R.layout.simple_spinner_item, statesNames);
                             spStates.setAdapter(statesAdapter);
 
-                            if (!stateID.equals("")) {
+                            if (!stateID.equals(""))
+                            {
                                 for (int j = 0; j < states.size(); j++) {
                                     if (states.get(j).getID().equals(stateID)) {
                                         spStates.setSelection(statesAdapter.getPosition(states.get(j).getState()));
@@ -561,7 +566,8 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                                         break;
                                     }
                                 }
-                            } else {
+                            }
+                            else {
                                 setCitiesInSpinner(states.get(spStates.getSelectedItemPosition()).getID(), "");
                             }
 
@@ -657,7 +663,9 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                                         break;
                                     }
                                 }
-                            } else {
+                            }
+                            else
+                                {
 
                             }
 
@@ -677,7 +685,8 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
                     public void onErrorResponse(VolleyError error) {
                         NetworkResponse response = error.networkResponse;
                         if (response != null && response.data != null) {
-                            switch (response.statusCode) {
+                            switch (response.statusCode)
+                            {
                                 case 409:
 //                                    utilities.dialog("Already Exist", act);
                                     break;
