@@ -112,32 +112,34 @@ public class ChooseSubCategoryActivity extends AppCompatActivity implements View
                         try {
 
                             JSONObject Jobject = new JSONObject(response);
-                            JSONObject result = Jobject.getJSONObject("result");
-                            if (result.get("status").equals("success")) {
-                                JSONArray Data = Jobject.getJSONArray("data");
+                           // JSONObject result = Jobject.getJSONObject("result");
+                           // if (result.get("status").equals("success"))
+                            {
+                                JSONObject Data = Jobject.getJSONObject("data");
 
                                 sub_categories_names.clear();
                                 sub_categories_last_update_time.clear();
                                 sub_categories_ads_quantity.clear();
 
-                                for (int i = 0; i < Data.length(); i++) {
-                                    JSONObject categoryObj = Data.getJSONObject(i);
+                                for (int i = 1; i <= 12; i++) {
+
+                                    JSONArray categoryObj = Data.getJSONArray(String.valueOf(i));
 
 
-                                    if (categoryObj.getString("category_Id").equals(GlobalClass.selectedCategoryID)) {
+                                    if (categoryObj.getJSONObject(0).getString("category_Id").equals(GlobalClass.selectedCategoryID)) {
 
                                         Log.e("selected_category_id" , GlobalClass.selectedCategoryID);
-                                        Log.e("category_Id",categoryObj.getString("category_Id"));
+                                       // Log.e("category_Id",categoryObj.getString("category_Id"));
 
-                                     //   sub_categories_last_update_time.add(categoryObj.getString("last_updated"));
-                                     //   sub_categories_ads_quantity.add(categoryObj.getString("ads_nums"));
-                                        JSONArray subCatArray = categoryObj.getJSONArray("sub_category");
+                                        sub_categories_last_update_time.add("");
+                                        sub_categories_ads_quantity.add("");
+                                     //   JSONArray subCatArray = categoryObj.getJSONArray("sub_category");
 
-                                        Log.e("size_sub_cty" , subCatArray.length()+"");
-                                        for (int j = 0; j < subCatArray.length(); j++) {
-                                            sub_categories_names.add(subCatArray.getJSONObject(j).getString("sub_cat_name"));
+                                        Log.e("size_sub_cty" , categoryObj.length()+"");
+                                        for (int j = 0; j < categoryObj.length(); j++) {
+                                            sub_categories_names.add(categoryObj.getJSONObject(j).getString("sub_cat_name"));
 
-                                            if(j == subCatArray.length()-1)
+                                            if(j == categoryObj.length()-1)
                                             {
 
                                                 mAdapter = new SubCategoriesAdapter(ChooseSubCategoryActivity.this, sub_categories_names, sub_categories_last_update_time, sub_categories_ads_quantity);

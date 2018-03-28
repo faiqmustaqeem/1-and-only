@@ -257,28 +257,30 @@ public class AdStatesActivity extends AppCompatActivity implements View.OnClickL
                     AdCountriesActivity.adCountriesActivity.finish();
                     finish();*/
                     progressBar.setVisibility(View.VISIBLE);
+//
+//                    new MaterialDialog.Builder(mContext)
+//                            .title("Select Country")
+//                            .content("do you want to select another country ?")
+//                            .positiveText("yes")
+//                            .canceledOnTouchOutside(false)
+//                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+//                                @Override
+//                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                                    Intent intent=new Intent(mContext,AdCountriesActivity.class);
+//                                    mContext.startActivity(intent);
+//
+//                                }
+//                            })
+//                            .negativeText("No")
+//                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+//                                @Override
+//                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                                    uploadAd(addItemAct);
+//                                }
+//                            })
+//                            .show();
 
-                    new MaterialDialog.Builder(mContext)
-                            .title("Select Country")
-                            .content("do you want to select another country ?")
-                            .positiveText("yes")
-                            .canceledOnTouchOutside(false)
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    Intent intent=new Intent(mContext,AdCountriesActivity.class);
-                                    mContext.startActivity(intent);
-
-                                }
-                            })
-                            .negativeText("No")
-                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    uploadAd(addItemAct);
-                                }
-                            })
-                            .show();
+                    uploadAd(addItemAct);
 
                 } else {
                     Toast.makeText(mContext, "Turn on a state", Toast.LENGTH_SHORT).show();

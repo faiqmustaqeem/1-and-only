@@ -192,41 +192,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         try {
                             Log.e("fetch_categories",response);
                             JSONObject Jobject = new JSONObject(response);
-                            JSONObject result = Jobject.getJSONObject("result");
-                            if (result.get("status").equals("success")) {
+                            isAgreed=Jobject.getJSONArray("is_agreed").getJSONObject(0).getString("is_agreed");
+//                            JSONObject result = Jobject.getJSONObject("result");
+//                            if (result.get("status").equals("success"))
+                            JSONObject Data=Jobject.getJSONObject("data");
+                            int index=1;
 
-                                isAgreed=result.getString("agreed");
-                                Log.e("agreed" , result.getString("agreed"));
-                                JSONArray Data = Jobject.getJSONArray("data");
+                            {
+
+
                                 categories = new ArrayList<CategoriesModel>();
 
-                                for (int i = 0; i < Data.length(); i++) {
-                                    JSONObject categoryObj = Data.getJSONObject(i);
-                                    JSONArray subCatArr = categoryObj.getJSONArray("sub_category");
+                                for (int i = 1; i <= 12; i++) {
+                                    JSONArray categoryObj = Data.getJSONArray(String.valueOf(i));
+                                //    JSONArray subCatArr = categoryObj.getJSONArray("sub_category");
 
                                     ArrayList<String> sub_category_IDs = new ArrayList<String>();
                                     ArrayList<String> sub_category_names = new ArrayList<String>();
                                     ArrayList<String> sub_category_last_update_time = new ArrayList<String>();
                                     ArrayList<String> sub_category_ads_quantity = new ArrayList<String>();
                                     ArrayList<ArrayList<String>> descriptionHeadings = new ArrayList<ArrayList<String>>();
+                                    String cat_name="";
+                                    for (int j = 0; j < categoryObj.length(); j++) {
+                                        JSONObject sub_cat=categoryObj.getJSONObject(j);
 
-                                    for (int j = 0; j < subCatArr.length(); j++) {
-                                        String id = subCatArr.getJSONObject(j).getString("id");
+                                        String id = sub_cat.getString("id");
                                         sub_category_IDs.add(id);
 
-                                        String name = subCatArr.getJSONObject(j).getString("sub_cat_name");
+                                        String name = sub_cat.getString("sub_cat_name");
                                         sub_category_names.add(name);
 
-                                        String lastUpdateTime = subCatArr.getJSONObject(j).getString("last_updated");
-                                        sub_category_last_update_time.add(lastUpdateTime);
+                                    //    String lastUpdateTime = sub_cat.getString("last_updated");
+                                        sub_category_last_update_time.add("");
 
-                                        String adsQuantity = subCatArr.getJSONObject(j).getString("subCat_adsNum");
-                                        sub_category_ads_quantity.add(adsQuantity);
+                                        //String adsQuantity = sub_cat.getString("subCat_adsNum");
+                                        sub_category_ads_quantity.add("");
+
+                                        cat_name=sub_cat.getString("name");
 
                                         ArrayList<String> subCatHeadings = new ArrayList<String>();
                                         subCatHeadings.clear();
                                         for (int k = 1; k <= 4; k++) {
-                                            subCatHeadings.add(subCatArr.getJSONObject(j).getString("dis_" + k));
+                                            subCatHeadings.add(sub_cat.getString("dis_" + k));
                                         }
 
                                         descriptionHeadings.add(subCatHeadings);
@@ -239,8 +246,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //                                    categoriesDataModel.add(new CategoriesModel(categoryObj.getString("category_Id"), categoryObj.getString("name"), categoryObj.getString("description"), sub_categories_names));
                                     }
-                                    categoriesModel = new CategoriesModel(categoryObj.getString("category_Id"), categoryObj.getString("name"), categoryObj.getString("last_updated"), sub_category_IDs, sub_category_names, sub_category_last_update_time, sub_category_ads_quantity, categoryObj.getString("status"), categoryObj.getString("ads_nums"), descriptionHeadings);
+
+                                    categoriesModel = new CategoriesModel(String.valueOf(index), cat_name, "", sub_category_IDs, sub_category_names, sub_category_last_update_time, sub_category_ads_quantity, "success", "", descriptionHeadings);
                                     categories.add(categoriesModel);
+                                    index++;
                                 }
 
                                 setAdsQtyInCategories();
@@ -390,7 +399,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bHomeAndGarden.setOnClickListener(this);
         bAddPost=(Button)findViewById(R.id.bAddPost);
         bAddPost.setOnClickListener(this);
-
         mListView = (ListView) findViewById(R.id.lvSearchedAds);
         bFilter = (Button) findViewById(R.id.bFilter);
         bFilter.setOnClickListener(this);
