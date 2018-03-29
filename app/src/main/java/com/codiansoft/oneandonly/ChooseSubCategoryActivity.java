@@ -111,33 +111,40 @@ public class ChooseSubCategoryActivity extends AppCompatActivity implements View
                         // response
                         try {
 
+                            Log.e("fetch_categories",response);
                             JSONObject Jobject = new JSONObject(response);
-                           // JSONObject result = Jobject.getJSONObject("result");
-                           // if (result.get("status").equals("success"))
-                            {
-                                JSONObject Data = Jobject.getJSONObject("data");
+                            // isAgreed=Jobject.getJSONArray("is_agreed").getJSONObject(0).getString("is_agreed");
+//                            JSONObject result = Jobject.getJSONObject("result");
+//                            if (result.get("status").equals("success"))
+                            JSONArray Data=Jobject.getJSONArray("data");
 
-                                sub_categories_names.clear();
+
+                            sub_categories_names.clear();
                                 sub_categories_last_update_time.clear();
                                 sub_categories_ads_quantity.clear();
 
-                                for (int i = 1; i <= 12; i++) {
+                                for (int i = 0; i < Data.length(); i++) {
 
-                                    JSONArray categoryObj = Data.getJSONArray(String.valueOf(i));
+                                    JSONObject categoryObj = Data.getJSONObject(i);
 
 
-                                    if (categoryObj.getJSONObject(0).getString("category_Id").equals(GlobalClass.selectedCategoryID)) {
+                                    if (categoryObj.getString("category_Id").equals(GlobalClass.selectedCategoryID)) {
 
                                         Log.e("selected_category_id" , GlobalClass.selectedCategoryID);
                                        // Log.e("category_Id",categoryObj.getString("category_Id"));
 
-                                        sub_categories_last_update_time.add("");
-                                        sub_categories_ads_quantity.add("");
+//                                        sub_categories_last_update_time.add("");
+//                                        sub_categories_ads_quantity.add("");
                                      //   JSONArray subCatArray = categoryObj.getJSONArray("sub_category");
 
                                         Log.e("size_sub_cty" , categoryObj.length()+"");
-                                        for (int j = 0; j < categoryObj.length(); j++) {
-                                            sub_categories_names.add(categoryObj.getJSONObject(j).getString("sub_cat_name"));
+
+                                        JSONArray sub_cat_Array=categoryObj.getJSONArray("sub_category");
+                                        for (int j = 0; j < sub_cat_Array.length(); j++) {
+                                            JSONObject sub_cat=sub_cat_Array.getJSONObject(j);
+                                            sub_categories_names.add(sub_cat.getString("sub_cat_name"));
+                                            sub_categories_ads_quantity.add(sub_cat.getJSONArray("subCat_adsNum").getJSONObject(0).getString("ads"));
+                                            sub_categories_last_update_time.add(sub_cat.getString("last_updated"));
 
                                             if(j == categoryObj.length()-1)
                                             {
@@ -158,7 +165,7 @@ public class ChooseSubCategoryActivity extends AppCompatActivity implements View
                                 Log.e("size" , sub_categories_names.size()+"");
 
 
-                            }
+
 
                         } catch (Exception ee) {
                             Toast.makeText(ChooseSubCategoryActivity.this, ee.toString(), Toast.LENGTH_SHORT).show();

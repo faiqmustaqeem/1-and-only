@@ -192,19 +192,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         try {
                             Log.e("fetch_categories",response);
                             JSONObject Jobject = new JSONObject(response);
-                            isAgreed=Jobject.getJSONArray("is_agreed").getJSONObject(0).getString("is_agreed");
+                           // isAgreed=Jobject.getJSONArray("is_agreed").getJSONObject(0).getString("is_agreed");
 //                            JSONObject result = Jobject.getJSONObject("result");
 //                            if (result.get("status").equals("success"))
-                            JSONObject Data=Jobject.getJSONObject("data");
-                            int index=1;
+                            JSONArray Data=Jobject.getJSONArray("data");
 
-                            {
+
 
 
                                 categories = new ArrayList<CategoriesModel>();
 
-                                for (int i = 1; i <= 12; i++) {
-                                    JSONArray categoryObj = Data.getJSONArray(String.valueOf(i));
+                                for (int i = 0; i < Data.length(); i++) {
+                                    JSONObject categoryObj = Data.getJSONObject(i);
                                 //    JSONArray subCatArr = categoryObj.getJSONArray("sub_category");
 
                                     ArrayList<String> sub_category_IDs = new ArrayList<String>();
@@ -212,9 +211,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     ArrayList<String> sub_category_last_update_time = new ArrayList<String>();
                                     ArrayList<String> sub_category_ads_quantity = new ArrayList<String>();
                                     ArrayList<ArrayList<String>> descriptionHeadings = new ArrayList<ArrayList<String>>();
-                                    String cat_name="";
-                                    for (int j = 0; j < categoryObj.length(); j++) {
-                                        JSONObject sub_cat=categoryObj.getJSONObject(j);
+                                    String cat_id=categoryObj.getString("category_Id");
+                                    String cat_name=categoryObj.getString("name");
+                                    String last_updated=categoryObj.getString("last_updated");
+                                    JSONArray subCatArray=categoryObj.getJSONArray("sub_category");
+
+                                    for (int j = 0; j < subCatArray.length(); j++) {
+
+                                        JSONObject sub_cat=subCatArray.getJSONObject(j);
 
                                         String id = sub_cat.getString("id");
                                         sub_category_IDs.add(id);
@@ -226,9 +230,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         sub_category_last_update_time.add("");
 
                                         //String adsQuantity = sub_cat.getString("subCat_adsNum");
-                                        sub_category_ads_quantity.add("");
+                                        sub_category_ads_quantity.add(sub_cat.getJSONArray("subCat_adsNum").getJSONObject(0).getString(("ads")));
 
-                                        cat_name=sub_cat.getString("name");
+
 
                                         ArrayList<String> subCatHeadings = new ArrayList<String>();
                                         subCatHeadings.clear();
@@ -247,15 +251,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                                    categoriesDataModel.add(new CategoriesModel(categoryObj.getString("category_Id"), categoryObj.getString("name"), categoryObj.getString("description"), sub_categories_names));
                                     }
 
-                                    categoriesModel = new CategoriesModel(String.valueOf(index), cat_name, "", sub_category_IDs, sub_category_names, sub_category_last_update_time, sub_category_ads_quantity, "success", "", descriptionHeadings);
+                                    categoriesModel = new CategoriesModel(cat_id, cat_name, last_updated, sub_category_IDs, sub_category_names, sub_category_last_update_time, sub_category_ads_quantity, "success", "", descriptionHeadings);
                                     categories.add(categoriesModel);
-                                    index++;
+
+
+                                    //index++;
                                 }
 
                                 setAdsQtyInCategories();
 
                                 progressDialog.hide();
-                            }
+
 
                         } catch (Exception ee) {
                             Toast.makeText(MainActivity.this, ee.toString(), Toast.LENGTH_SHORT).show();

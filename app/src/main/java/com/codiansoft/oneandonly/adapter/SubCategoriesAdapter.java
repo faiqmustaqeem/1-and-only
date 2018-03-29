@@ -92,8 +92,8 @@ public class SubCategoriesAdapter extends BaseAdapter {
             }
 
             viewHolder.txtName.setText(subCategoryName);
-          //  viewHolder.tvLastUpdateTime.setText(sub_ategories_last_update_time);
-         //   viewHolder.tvAdsQuantity.setText(sub_ategories_ads_quantity);
+            viewHolder.tvLastUpdateTime.setText(sub_categories_last_update_time.get(i));
+            viewHolder.tvAdsQuantity.setText(sub_categories_ads_quantity.get(i));
         }
         return view;
     }
